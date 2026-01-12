@@ -11,7 +11,7 @@
     "href": "workshop.html#setup-install",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Setup (install)",
-    "text": "Setup (install)\n\ninstall.packages(c(\n  \"finna\", \"finto\", \"tidyverse\", \"ggplot2\"\n  ))"
+    "text": "Setup (install)\n\ninstall.packages(c(\"remotes\" , \"tidyverse\", \"ggplot2\"))\nremotes::install_github(\"fennicahub/finna\")\n\nRcpp     (NA -&gt; 1.1.1) [CRAN]\nplyr     (NA -&gt; 1.8.9) [CRAN]\nreshape2 (NA -&gt; 1.4.5) [CRAN]\n\n\n* checking for file ‘/tmp/RtmpDTswiK/remotes153831e49cbf/fennicahub-finna-ad137f2/DESCRIPTION’ ... OK\n* preparing ‘finna’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\n* looking to see if a ‘data/datalist’ file should be added\n* building ‘finna_0.1.2.tar.gz’\n\nremotes::install_github(\"fennicahub/finto\")\n\n* checking for file ‘/tmp/RtmpDTswiK/remotes15386b286624/fennicahub-finto-fb64033/DESCRIPTION’ ... OK\n* preparing ‘finto’:\n* checking DESCRIPTION meta-information ... OK\n* checking for LF line-endings in source and make files and shell scripts\n* checking for empty or unneeded directories\nOmitted ‘LazyData’ from DESCRIPTION\n* building ‘finto_0.1.1.tar.gz’"
   },
   {
     "objectID": "workshop.html#setup-load",
