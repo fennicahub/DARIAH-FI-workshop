@@ -41,11 +41,11 @@ Examples and exercises are based on the **finna** package vignettes:
 
 ```{r}
 #| label: install-packages
-#| eval: false
 
-install.packages(c(
-  "finna", "finto", "tidyverse", "ggplot2"
-  ))
+install.packages(c("remotes" , "tidyverse", "ggplot2"))
+remotes::install_github("fennicahub/finna")
+remotes::install_github("fennicahub/finto")
+
 ```
 
 ---
