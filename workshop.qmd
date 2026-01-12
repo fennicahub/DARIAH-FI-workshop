@@ -1,0 +1,579 @@
+---
+title: "Retrieving and Analyzing Finnish Cultural Metadata with R"
+subtitle: "Finna, Fennica & Viola"
+author: "Akewak Jeba"
+date: today
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    incremental: true
+    code-line-numbers: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+## Workshop overview
+
+- What is Finna (incl. Fennica & Viola)
+- Why use R for cultural metadata
+- The `finna` R package
+- Case study 1: Fennica
+- Case study 2: Viola
+- Enrichment with Finto / KANTO
+- Practical exercises (+ solutions)
+- Questions
+
+::: notes
+Examples and exercises are based on the **finna** package vignettes:
+- Introduction to finna
+- Fennica in Finna
+- Viola in Finna
+- Fennica Authors in Kanto
+:::
+
+---
+
+## Setup (install)
+
+```{r}
+#| label: install-packages
+#| eval: false
+
+install.packages(c(
+  "finna", "finto", "tidyverse", "ggplot2"
+  ))
+```
+
+---
+
+## Setup (load)
+
+```{r}
+#| label: load-libraries
+#| eval: false
+
+library(finna)
+library(finto)
+library(tidyverse)
+library(ggplot2)
+```
+
+::: notes
+If time is tight, you can run demo code and participants can follow later using the handout QMD.
+:::
+
+---
+
+## What is Finna?
+
+* Finnish national search service for museums, libraries, and archives
+* Maintained by the National Library of Finland + partner institutions
+* Provides open interfaces for search and reuse
+
+**Key idea:** Finna is an aggregation layer, not a single database.
+
+---
+
+## Fennica and Viola inside Finna
+
+* **Fennica**: Finnish National Bibliography (books/publications; long historical coverage)
+* **Viola**: national discography and sheet music bibliography (recordings, scores, music archives)
+
+---
+
+## Why use R?
+
+* Reproducible workflows: retrieval → cleaning → analysis → visualization
+* Scales beyond manual browsing
+* Bridges cultural metadata to:
+
+  * statistics
+  * ML
+  * text analysis
+  * enrichment via authority data
+
+---
+
+## The `finna` R package
+
+* Core entry point: `search_finna()`
+* Bulk retrieval patterns (limits, batching)
+* Tidy outputs (tibbles) → easy `dplyr` + `ggplot2`
+
+---
+
+---
+
+### 🔹 Basic search (Introduction to `finna`)
+
+```{r}
+#| label: basic-search
+#| eval: false
+
+library(finna)
+
+record <- search_finna("sibelius")
+record %>% slice_head(n = 10)
+
+
+```
+
+---
+
+### 🔹 Subject search example
+
+```{r}
+#| label: subject-search
+#| eval: false
+
+record_subject <- search_finna(
+  query = '"orkesterimusiikki"',
+  type = "Subject",
+  lng = "en"
+  )
+
+record_subject %>% slice_head(n = 10)
+
+```
+
+
+---
+
+### 🔹 Search operators (+ and !-)
+
+```{r}
+#| label: search-operators
+#| eval: false
+
+# Must include economics, Keynes optional
+
+plus_example <- search_finna("+economics Keynes")
+
+# Exclude Keynes (multi-word search only)
+
+minus_example <- search_finna("economics !-Keynes")
+
+plus_example %>% slice_head(n = 5)
+minus_example %>% slice_head(n = 5)
+
+```
+
+
+---
+
+### 🔹 Fuzzy and proximity search
+
+```{r}
+#| label: fuzzy-proximity
+#| eval: false
+
+# Fuzzy search
+
+fuzzy_search <- search_finna("roam~")
+
+# Proximity search
+
+prox_search <- search_finna("economics Keynes~10")
+
+fuzzy_search %>% slice_head(n = 5)
+prox_search %>% slice_head(n = 5)
+```
+
+
+---
+
+##  Case study 1: Fennica 
+
+### Basic Fennica search
+
+```{r}
+#| label: fennica-basic
+#| eval: false
+
+fennica <- search_finna(
+  "*",
+  filters = c('collection:"FEN"')
+)
+
+fennica %>% slice_head(n = 10)
+
+```
+
+
+
+
+---
+
+### 🔹 19th-century Fennica (1809–1917)
+
+```{r}
+#| label: fennica-19c
+#| eval: false
+
+fennica_19c <- search_finna(
+  "*",
+  filters = c(
+    'collection:"FEN"',
+    'search_daterange_mv:"overlap|[1809 TO 1917]"'
+    )
+)
+
+attr(fennica_19c, "result_count")
+
+```
+
+
+---
+
+### 🔹 Fennica publication year distribution
+
+```{r}
+
+#| label: fennica-plot
+#| eval: false
+
+library(finna)
+library(ggplot2)
+fennica <- search_finna(
+  "*",
+  filters = c('collection:"FEN"', 'search_daterange_mv:"[1809 TO 1918]"'))
+refined_data <- refine_metadata(fennica)
+top_plot(refined_data$Year, field = "Year",  ntop = 10, show.percentage = TRUE) +
+  xlab("Publication Year") + 
+  ylab("percentage distribution of Publications")  
+```
+
+
+---
+
+## 🎼 Case study 2: Viola (official vignette)
+
+### 🔹 Batch retrieval across centuries
+
+```{r}
+#| label: viola-batch
+#| eval: false
+
+viola_results <- fetch_viola_records(
+base_query = "*",
+base_filters = c('collection:"VIO"'),
+year_ranges = list(
+  c(0, 1699),
+  c(1700, 1799),
+  c(1800, 1899)
+  ),
+include_na = TRUE,
+limit_per_query = 100000,
+total_limit = 5000,
+delay_after_query = 3
+)
+
+nrow(viola_results)
+viola_results %>% slice_head(n = 6)
+```
+
+
+---
+
+### 🔹 Viola: top-10 authors
+
+```{r}
+#| label: viola-top-authors
+#| eval: false
+
+refined_viola <- refine_metadata(viola_results)
+
+top_plot(
+  refined_viola$Author,
+  field = "Author",
+  ntop = 10,
+  show.percentage = TRUE
+  ) +
+  xlab("Author") +
+  ylab("Percentage")
+```
+
+
+
+---
+
+## 🗂️ Finna collection overview (archives example)
+```{r}
+#| label: finna-collections
+#| eval: false
+
+collection_overview <- fetch_finna(
+  query = "record_format:ead",
+  limit = 0,
+  facets = "building",
+  lng = "fi",
+  prettyPrint = TRUE
+)
+
+collection_overview
+
+```
+
+
+
+---
+
+
+## Enrichment: Fennica authors → KANTO
+
+```{r}
+#| label: kanto-enrichment
+#| eval: false
+
+library(finto)
+library(stringr)
+library(dplyr)
+
+data("fennica_subset", package = "finna")
+
+authors_df <- finto::get_kanto(fennica_subset)
+
+fennica_subset2 <- fennica_subset %>%
+mutate(authorID = str_extract(author_ID, "\d{9}"))
+
+authors_df_clean <- authors_df %>% 
+  distinct(author_ID, .keep_all = TRUE) %>% 
+  rename(authorID = author_ID)
+
+merged_data <- left_join(
+  fennica_subset2,
+  authors_df_clean,
+  by = "authorID"
+)
+
+merged_data %>% slice_head(n = 5)
+```
+
+
+---
+
+# Exercises (with solutions)
+
+---
+
+## Exercise 1 (Fennica): time window trend
+
+**Task**
+
+1. Retrieve Fennica records for **1900–1950** (sample is fine)
+2. Plot publications per year
+
+```{r}
+#| label: ex1-your-code
+#| eval: false
+
+# Your code here
+```
+
+---
+
+## Exercise 1 — Solution
+
+```{r}
+#| label: ex1-solution
+#| eval: false
+
+fen_1900_1950 <- search_finna(
+  query = "*",
+  filters = c(
+    'collection:"FEN"',
+    'search_daterange_mv:"overlap|[1900 TO 1950]"'
+  ),
+  limit = 5000
+)
+
+fen_1900_1950 %>%
+  mutate(Year = suppressWarnings(as.integer(Year))) %>%
+  filter(!is.na(Year)) %>%
+  count(Year) %>%
+  ggplot(aes(Year, n)) +
+  geom_line() +
+  labs(
+    title = "Fennica publications per year (1900–1950 sample)",
+    x = "Year",
+    y = "Count"
+  )
+```
+
+---
+
+## Exercise 2 (Fennica): compare two languages or formats
+
+**Task**
+
+1. From your Fennica sample, pick two values of `Language` (or `Formats`)
+2. Compare counts over time (facet or color)
+
+```{r}
+#| label: ex2-your-code
+#| eval: false
+
+# Your code here
+```
+
+---
+
+## Exercise 2 — Solution
+
+```{r}
+#| label: ex2-solution
+#| eval: false
+
+fen <- fen_1900_1950 %>%
+  mutate(
+    Year = suppressWarnings(as.integer(Year)),
+    Language = as.character(Language)
+  ) %>%
+  filter(!is.na(Year), !is.na(Language))
+
+top_lang <- fen %>%
+  count(Language, sort = TRUE) %>%
+  slice_head(n = 2) %>%
+  pull(Language)
+
+fen %>%
+  filter(Language %in% top_lang) %>%
+  count(Year, Language) %>%
+  ggplot(aes(Year, n, color = Language)) +
+  geom_line() +
+  labs(
+    title = "Two most common languages over time (sample)",
+    x = "Year",
+    y = "Count"
+  )
+```
+
+---
+
+## Exercise 3 (Viola): top-10 authors and share
+
+**Task**
+
+1. Use `fetch_viola_records()` for a small time window (e.g., 1900–1949)
+2. Plot top-10 authors with percentages
+
+```{r}
+#| label: ex3-your-code
+#| eval: false
+
+# Your code here
+```
+
+---
+
+## Exercise 3 — Solution
+
+```{r}
+#| label: ex3-solution
+#| eval: false
+
+viola_1900_1949 <- fetch_viola_records(
+  base_query = "*",
+  base_filters = c('collection:"VIO"'),
+  year_ranges = list(c(1900, 1949)),
+  include_na = FALSE,
+  limit_per_query = 100000,
+  total_limit = 5000,
+  delay_after_query = 1
+)
+
+ref_v <- refine_metadata(viola_1900_1949)
+
+top_plot(ref_v$Author, field = "Author", ntop = 10, show.percentage = TRUE) +
+  xlab("Author") +
+  ylab("Percentage")
+```
+
+---
+
+## Exercise 4 (Enrichment): join KANTO and inspect new fields
+
+**Task**
+
+1. Load `fennica_subset` (built-in demo dataset)
+2. Fetch KANTO author data with `get_kanto()`
+3. Join back and list 5 enriched columns you didn't have before
+
+```{r}
+#| label: ex4-your-code
+#| eval: false
+
+# Your code here
+```
+
+---
+
+## Exercise 4 — Solution
+
+```{r}
+#| label: ex4-solution
+#| eval: false
+
+data("fennica_subset", package = "finna")
+
+authors_df <- finto::get_kanto(fennica_subset)
+
+fennica_subset2 <- fennica_subset %>%
+  mutate(authorID = stringr::str_extract(author_ID, "\\d{9}"))
+
+authors_df_clean <- authors_df %>%
+  distinct(author_ID, .keep_all = TRUE) %>%
+  rename(authorID = author_ID)
+
+joined <- left_join(fennica_subset2, authors_df_clean, by = "authorID")
+
+# Columns added by enrichment (rough heuristic)
+added_cols <- setdiff(names(joined), names(fennica_subset2))
+added_cols %>% head(20)
+
+# Example: show a few enriched fields if present
+joined %>% select(any_of(c("author_name", "authorID", "uri", "type")), any_of(added_cols)) %>%
+  slice_head(n = 3)
+```
+
+---
+
+## Take-home message
+
+* Finna metadata is research-ready in R
+* `finna` enables scalable, reproducible cultural analytics
+* Enrichment + stats unlock new research questions
+
+**Questions?**
+
+---
+
+## Troubleshooting
+
+* **API limits**: Use `limit` parameter and batching
+* **Rate limiting**: Add `delay_after_query` parameter
+* **Missing data**: Use `filter(!is.na(field))`
+* **Date parsing**: Use `suppressWarnings(as.integer(Year))`
+
+---
+
+## Cheat sheet
+
+```r
+# Basic search
+search_finna(query, filters, limit)
+
+# Fennica specific
+search_finna("*", filters = c('collection:"FEN"'))
+
+# Viola batching
+fetch_viola_records(base_query, year_ranges)
+
+# Enrichment
+finto::get_kanto(data)
+
+```

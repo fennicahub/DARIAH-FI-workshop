@@ -1,0 +1,156 @@
+[
+  {
+    "objectID": "workshop.html#workshop-overview",
+    "href": "workshop.html#workshop-overview",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Workshop overview",
+    "text": "Workshop overview\n\nWhat is Finna (incl. Fennica & Viola)\nWhy use R for cultural metadata\nThe finna R package\nCase study 1: Fennica\nCase study 2: Viola\nEnrichment with Finto / KANTO\nPractical exercises (+ solutions)\nQuestions\n\n\nExamples and exercises are based on the finna package vignettes: - Introduction to finna - Fennica in Finna - Viola in Finna - Fennica Authors in Kanto"
+  },
+  {
+    "objectID": "workshop.html#setup-install",
+    "href": "workshop.html#setup-install",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Setup (install)",
+    "text": "Setup (install)\n\ninstall.packages(c(\n  \"finna\", \"finto\", \"tidyverse\", \"ggplot2\"\n  ))"
+  },
+  {
+    "objectID": "workshop.html#setup-load",
+    "href": "workshop.html#setup-load",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Setup (load)",
+    "text": "Setup (load)\n\nlibrary(finna)\nlibrary(finto)\nlibrary(tidyverse)\nlibrary(ggplot2)\n\n\nIf time is tight, you can run demo code and participants can follow later using the handout QMD."
+  },
+  {
+    "objectID": "workshop.html#what-is-finna",
+    "href": "workshop.html#what-is-finna",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "What is Finna?",
+    "text": "What is Finna?\n\nFinnish national search service for museums, libraries, and archives\nMaintained by the National Library of Finland + partner institutions\nProvides open interfaces for search and reuse\n\nKey idea: Finna is an aggregation layer, not a single database."
+  },
+  {
+    "objectID": "workshop.html#fennica-and-viola-inside-finna",
+    "href": "workshop.html#fennica-and-viola-inside-finna",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Fennica and Viola inside Finna",
+    "text": "Fennica and Viola inside Finna\n\nFennica: Finnish National Bibliography (books/publications; long historical coverage)\nViola: national discography and sheet music bibliography (recordings, scores, music archives)"
+  },
+  {
+    "objectID": "workshop.html#why-use-r",
+    "href": "workshop.html#why-use-r",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Why use R?",
+    "text": "Why use R?\n\nReproducible workflows: retrieval → cleaning → analysis → visualization\nScales beyond manual browsing\nBridges cultural metadata to:\n\nstatistics\nML\ntext analysis\nenrichment via authority data"
+  },
+  {
+    "objectID": "workshop.html#the-finna-r-package",
+    "href": "workshop.html#the-finna-r-package",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "The finna R package",
+    "text": "The finna R package\n\nCore entry point: search_finna()\nBulk retrieval patterns (limits, batching)\nTidy outputs (tibbles) → easy dplyr + ggplot2"
+  },
+  {
+    "objectID": "workshop.html#case-study-1-fennica",
+    "href": "workshop.html#case-study-1-fennica",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Case study 1: Fennica",
+    "text": "Case study 1: Fennica\nBasic Fennica search\n\nfennica &lt;- search_finna(\n  \"*\",\n  filters = c('collection:\"FEN\"')\n)\n\nfennica %&gt;% slice_head(n = 10)"
+  },
+  {
+    "objectID": "workshop.html#case-study-2-viola-official-vignette",
+    "href": "workshop.html#case-study-2-viola-official-vignette",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "🎼 Case study 2: Viola (official vignette)",
+    "text": "🎼 Case study 2: Viola (official vignette)\n🔹 Batch retrieval across centuries\n\nviola_results &lt;- fetch_viola_records(\nbase_query = \"*\",\nbase_filters = c('collection:\"VIO\"'),\nyear_ranges = list(\n  c(0, 1699),\n  c(1700, 1799),\n  c(1800, 1899)\n  ),\ninclude_na = TRUE,\nlimit_per_query = 100000,\ntotal_limit = 5000,\ndelay_after_query = 3\n)\n\nnrow(viola_results)\nviola_results %&gt;% slice_head(n = 6)"
+  },
+  {
+    "objectID": "workshop.html#finna-collection-overview-archives-example",
+    "href": "workshop.html#finna-collection-overview-archives-example",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "🗂️ Finna collection overview (archives example)",
+    "text": "🗂️ Finna collection overview (archives example)\n\ncollection_overview &lt;- fetch_finna(\n  query = \"record_format:ead\",\n  limit = 0,\n  facets = \"building\",\n  lng = \"fi\",\n  prettyPrint = TRUE\n)\n\ncollection_overview"
+  },
+  {
+    "objectID": "workshop.html#enrichment-fennica-authors-kanto",
+    "href": "workshop.html#enrichment-fennica-authors-kanto",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Enrichment: Fennica authors → KANTO",
+    "text": "Enrichment: Fennica authors → KANTO\n\nlibrary(finto)\nlibrary(stringr)\nlibrary(dplyr)\n\ndata(\"fennica_subset\", package = \"finna\")\n\nauthors_df &lt;- finto::get_kanto(fennica_subset)\n\nfennica_subset2 &lt;- fennica_subset %&gt;%\nmutate(authorID = str_extract(author_ID, \"\\d{9}\"))\n\nauthors_df_clean &lt;- authors_df %&gt;% \n  distinct(author_ID, .keep_all = TRUE) %&gt;% \n  rename(authorID = author_ID)\n\nmerged_data &lt;- left_join(\n  fennica_subset2,\n  authors_df_clean,\n  by = \"authorID\"\n)\n\nmerged_data %&gt;% slice_head(n = 5)"
+  },
+  {
+    "objectID": "workshop.html#exercise-1-fennica-time-window-trend",
+    "href": "workshop.html#exercise-1-fennica-time-window-trend",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 1 (Fennica): time window trend",
+    "text": "Exercise 1 (Fennica): time window trend\nTask\n\nRetrieve Fennica records for 1900–1950 (sample is fine)\nPlot publications per year\n\n\n# Your code here"
+  },
+  {
+    "objectID": "workshop.html#exercise-1-solution",
+    "href": "workshop.html#exercise-1-solution",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 1 — Solution",
+    "text": "Exercise 1 — Solution\n\nfen_1900_1950 &lt;- search_finna(\n  query = \"*\",\n  filters = c(\n    'collection:\"FEN\"',\n    'search_daterange_mv:\"overlap|[1900 TO 1950]\"'\n  ),\n  limit = 5000\n)\n\nfen_1900_1950 %&gt;%\n  mutate(Year = suppressWarnings(as.integer(Year))) %&gt;%\n  filter(!is.na(Year)) %&gt;%\n  count(Year) %&gt;%\n  ggplot(aes(Year, n)) +\n  geom_line() +\n  labs(\n    title = \"Fennica publications per year (1900–1950 sample)\",\n    x = \"Year\",\n    y = \"Count\"\n  )"
+  },
+  {
+    "objectID": "workshop.html#exercise-2-fennica-compare-two-languages-or-formats",
+    "href": "workshop.html#exercise-2-fennica-compare-two-languages-or-formats",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 2 (Fennica): compare two languages or formats",
+    "text": "Exercise 2 (Fennica): compare two languages or formats\nTask\n\nFrom your Fennica sample, pick two values of Language (or Formats)\nCompare counts over time (facet or color)\n\n\n# Your code here"
+  },
+  {
+    "objectID": "workshop.html#exercise-2-solution",
+    "href": "workshop.html#exercise-2-solution",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 2 — Solution",
+    "text": "Exercise 2 — Solution\n\nfen &lt;- fen_1900_1950 %&gt;%\n  mutate(\n    Year = suppressWarnings(as.integer(Year)),\n    Language = as.character(Language)\n  ) %&gt;%\n  filter(!is.na(Year), !is.na(Language))\n\ntop_lang &lt;- fen %&gt;%\n  count(Language, sort = TRUE) %&gt;%\n  slice_head(n = 2) %&gt;%\n  pull(Language)\n\nfen %&gt;%\n  filter(Language %in% top_lang) %&gt;%\n  count(Year, Language) %&gt;%\n  ggplot(aes(Year, n, color = Language)) +\n  geom_line() +\n  labs(\n    title = \"Two most common languages over time (sample)\",\n    x = \"Year\",\n    y = \"Count\"\n  )"
+  },
+  {
+    "objectID": "workshop.html#exercise-3-viola-top-10-authors-and-share",
+    "href": "workshop.html#exercise-3-viola-top-10-authors-and-share",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 3 (Viola): top-10 authors and share",
+    "text": "Exercise 3 (Viola): top-10 authors and share\nTask\n\nUse fetch_viola_records() for a small time window (e.g., 1900–1949)\nPlot top-10 authors with percentages\n\n\n# Your code here"
+  },
+  {
+    "objectID": "workshop.html#exercise-3-solution",
+    "href": "workshop.html#exercise-3-solution",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 3 — Solution",
+    "text": "Exercise 3 — Solution\n\nviola_1900_1949 &lt;- fetch_viola_records(\n  base_query = \"*\",\n  base_filters = c('collection:\"VIO\"'),\n  year_ranges = list(c(1900, 1949)),\n  include_na = FALSE,\n  limit_per_query = 100000,\n  total_limit = 5000,\n  delay_after_query = 1\n)\n\nref_v &lt;- refine_metadata(viola_1900_1949)\n\ntop_plot(ref_v$Author, field = \"Author\", ntop = 10, show.percentage = TRUE) +\n  xlab(\"Author\") +\n  ylab(\"Percentage\")"
+  },
+  {
+    "objectID": "workshop.html#exercise-4-enrichment-join-kanto-and-inspect-new-fields",
+    "href": "workshop.html#exercise-4-enrichment-join-kanto-and-inspect-new-fields",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 4 (Enrichment): join KANTO and inspect new fields",
+    "text": "Exercise 4 (Enrichment): join KANTO and inspect new fields\nTask\n\nLoad fennica_subset (built-in demo dataset)\nFetch KANTO author data with get_kanto()\nJoin back and list 5 enriched columns you didn’t have before\n\n\n# Your code here"
+  },
+  {
+    "objectID": "workshop.html#exercise-4-solution",
+    "href": "workshop.html#exercise-4-solution",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Exercise 4 — Solution",
+    "text": "Exercise 4 — Solution\n\ndata(\"fennica_subset\", package = \"finna\")\n\nauthors_df &lt;- finto::get_kanto(fennica_subset)\n\nfennica_subset2 &lt;- fennica_subset %&gt;%\n  mutate(authorID = stringr::str_extract(author_ID, \"\\\\d{9}\"))\n\nauthors_df_clean &lt;- authors_df %&gt;%\n  distinct(author_ID, .keep_all = TRUE) %&gt;%\n  rename(authorID = author_ID)\n\njoined &lt;- left_join(fennica_subset2, authors_df_clean, by = \"authorID\")\n\n# Columns added by enrichment (rough heuristic)\nadded_cols &lt;- setdiff(names(joined), names(fennica_subset2))\nadded_cols %&gt;% head(20)\n\n# Example: show a few enriched fields if present\njoined %&gt;% select(any_of(c(\"author_name\", \"authorID\", \"uri\", \"type\")), any_of(added_cols)) %&gt;%\n  slice_head(n = 3)"
+  },
+  {
+    "objectID": "workshop.html#take-home-message",
+    "href": "workshop.html#take-home-message",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Take-home message",
+    "text": "Take-home message\n\nFinna metadata is research-ready in R\nfinna enables scalable, reproducible cultural analytics\nEnrichment + stats unlock new research questions\n\nQuestions?"
+  },
+  {
+    "objectID": "workshop.html#troubleshooting",
+    "href": "workshop.html#troubleshooting",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nAPI limits: Use limit parameter and batching\nRate limiting: Add delay_after_query parameter\nMissing data: Use filter(!is.na(field))\nDate parsing: Use suppressWarnings(as.integer(Year))"
+  },
+  {
+    "objectID": "workshop.html#cheat-sheet",
+    "href": "workshop.html#cheat-sheet",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Cheat sheet",
+    "text": "Cheat sheet\n# Basic search\nsearch_finna(query, filters, limit)\n\n# Fennica specific\nsearch_finna(\"*\", filters = c('collection:\"FEN\"'))\n\n# Viola batching\nfetch_viola_records(base_query, year_ranges)\n\n# Enrichment\nfinto::get_kanto(data)"
+  }
+]

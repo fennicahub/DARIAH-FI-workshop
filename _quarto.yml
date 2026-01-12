@@ -1,0 +1,6 @@
+project:
+  title: "DARIAH-FI-workshop"
+  type: website
+  output-dir: docs
+  render:
+    - workshop.qmd
