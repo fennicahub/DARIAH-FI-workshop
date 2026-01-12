@@ -39,7 +39,7 @@
     "href": "workshop.html#setup-install",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Setup (install)",
-    "text": "Setup (install)\n\noptions(repos = c(CRAN = \"https://cloud.r-project.org\"))\n\ninstall.packages(c(\"remotes\", \"tidyverse\", \"ggplot2\"))\n\n\nThe downloaded binary packages are in\n    /var/folders/2j/0z_4hj9x2536zbjhtj96swgw0000gn/T//RtmpoZYhj1/downloaded_packages\n\nremotes::install_github(\"fennicahub/finna\")\nremotes::install_github(\"fennicahub/finto\")"
+    "text": "Setup (install)\n\noptions(repos = c(CRAN = \"https://cloud.r-project.org\"))\n\ninstall.packages(c(\"remotes\", \"tidyverse\", \"ggplot2\"))\n\nremotes::install_github(\"fennicahub/finna\")\nremotes::install_github(\"fennicahub/finto\")"
   },
   {
     "objectID": "workshop.html#setup-load",

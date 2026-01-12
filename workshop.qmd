@@ -83,7 +83,7 @@ Examples and exercises are based on the **finna** package vignettes:
 
 ```{r}
 #| label: install-packages
-
+#| eval: false
 options(repos = c(CRAN = "https://cloud.r-project.org"))
 
 install.packages(c("remotes", "tidyverse", "ggplot2"))
@@ -99,7 +99,8 @@ remotes::install_github("fennicahub/finto")
 
 ```{r}
 #| label: load-libraries
-
+#| eval: false
+#| 
 library(finna)
 library(finto)
 library(tidyverse)
