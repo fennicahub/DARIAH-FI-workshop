@@ -1,7 +1,7 @@
 ---
 title: "Retrieving and Analyzing Finnish Cultural Metadata with R"
 subtitle: "Finna, Fennica & Viola"
-author: "Akewak Jeba"
+author: "Akewak Jeba, Julia Matveeva, Leo Lahti"
 date: today
 format:
   revealjs:
@@ -230,7 +230,7 @@ attr(fennica_19c, "result_count")
 
 ### 🔹 Fennica publication year distribution
 
-```{r}
+```{r eval=FALSE}
 
 #| label: fennica-plot
 #| eval: false
