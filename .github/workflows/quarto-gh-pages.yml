@@ -5,6 +5,7 @@ on:
     paths:
     - '**.yml'
     - '**.qmd'
+    - '**.png'
   workflow_dispatch:
 permissions: write-all
 
@@ -17,36 +18,13 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Install system libraries (curl + ragg + text rendering)
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends \
-            build-essential \
-            pkg-config \
-            libcurl4-openssl-dev \
-            libssl-dev \
-            libxml2-dev \
-            libfontconfig1-dev \
-            libfreetype6-dev \
-            libharfbuzz-dev \
-            libfribidi-dev \
-            libpng-dev \
-            libcairo2-dev \
-            fonts-dejavu-core
+      - uses: actions/checkout@v2
 
       - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
-
-      - name: Install R packages (CRAN + GitHub)
-        run: |
-          Rscript -e 'options(repos=c(CRAN="https://cloud.r-project.org")); install.packages(c("remotes" , "tidyverse", "ggplot2"))'
-          Rscript -e 'remotes::install_github("fennicahub/finna")'
-          Rscript -e 'remotes::install_github("fennicahub/finto")'
 
       - uses: quarto-dev/quarto-actions/setup@v2
 
