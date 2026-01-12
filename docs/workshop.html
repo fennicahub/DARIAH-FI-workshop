@@ -6,8 +6,8 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.31">
 
   <meta name="author" content="Akewak Jeba">
   <meta name="dcterms.date" content="2026-01-12">
@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-0fde88a82f0356838740f155f1088782.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2c1b5f745a11cfad616ebade4a4a7d24.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -233,58 +233,8 @@ Akewak Jeba
           display:block!important;
       }</style></aside>
 </section>
-<section id="setup-install" class="slide level2">
-<h2>Setup (install)</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"remotes"</span> , <span class="st">"tidyverse"</span>, <span class="st">"ggplot2"</span>))</span>
-<span id="cb1-2"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finna"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Rcpp     (NA -&gt; 1.1.1) [CRAN]
-plyr     (NA -&gt; 1.8.9) [CRAN]
-reshape2 (NA -&gt; 1.4.5) [CRAN]</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>* checking for file ‘/tmp/RtmpDTswiK/remotes153831e49cbf/fennicahub-finna-ad137f2/DESCRIPTION’ ... OK
-* preparing ‘finna’:
-* checking DESCRIPTION meta-information ... OK
-* checking for LF line-endings in source and make files and shell scripts
-* checking for empty or unneeded directories
-* looking to see if a ‘data/datalist’ file should be added
-* building ‘finna_0.1.2.tar.gz’</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>* checking for file ‘/tmp/RtmpDTswiK/remotes15386b286624/fennicahub-finto-fb64033/DESCRIPTION’ ... OK
-* preparing ‘finto’:
-* checking DESCRIPTION meta-information ... OK
-* checking for LF line-endings in source and make files and shell scripts
-* checking for empty or unneeded directories
-Omitted ‘LazyData’ from DESCRIPTION
-* building ‘finto_0.1.1.tar.gz’</code></pre>
-</div>
-</div>
-</section>
-<section id="setup-load" class="slide level2">
-<h2>Setup (load)</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">library</span>(finna)</span>
-<span id="cb6-2"><a></a><span class="fu">library</span>(finto)</span>
-<span id="cb6-3"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb6-4"><a></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<aside class="notes">
-<p>If time is tight, you can run demo code and participants can follow later using the handout QMD.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section class="slide level2">
+
 </section>
 <section id="what-is-finna" class="slide level2">
 <h2>What is Finna?</h2>
@@ -324,107 +274,128 @@ Omitted ‘LazyData’ from DESCRIPTION
 <li class="fragment">Tidy outputs (tibbles) → easy <code>dplyr</code> + <code>ggplot2</code></li>
 </ul>
 </section>
-<section class="slide level2">
-
+<section id="setup-install" class="slide level2">
+<h2>Setup (install)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>))</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"remotes"</span>, <span class="st">"tidyverse"</span>, <span class="st">"ggplot2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+The downloaded binary packages are in
+    /var/folders/2j/0z_4hj9x2536zbjhtj96swgw0000gn/T//RtmpoZYhj1/downloaded_packages</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finna"</span>)</span>
+<span id="cb3-2"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="setup-load" class="slide level2">
+<h2>Setup (load)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">library</span>(finna)</span>
+<span id="cb4-2"><a></a><span class="fu">library</span>(finto)</span>
+<span id="cb4-3"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb4-4"><a></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section class="slide level2">
 
 <h3 id="basic-search-introduction-to-finna">🔹 Basic search (Introduction to <code>finna</code>)</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="fu">library</span>(finna)</span>
-<span id="cb7-2"><a></a></span>
-<span id="cb7-3"><a></a>record <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"sibelius"</span>)</span>
-<span id="cb7-4"><a></a>record <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">library</span>(finna)</span>
+<span id="cb5-2"><a></a></span>
+<span id="cb5-3"><a></a>record <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"sibelius"</span>)</span>
+<span id="cb5-4"><a></a>record <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="subject-search-example">🔹 Subject search example</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>record_subject <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
-<span id="cb8-2"><a></a>  <span class="at">query =</span> <span class="st">'"orkesterimusiikki"'</span>,</span>
-<span id="cb8-3"><a></a>  <span class="at">type =</span> <span class="st">"Subject"</span>,</span>
-<span id="cb8-4"><a></a>  <span class="at">lng =</span> <span class="st">"en"</span></span>
-<span id="cb8-5"><a></a>  )</span>
-<span id="cb8-6"><a></a></span>
-<span id="cb8-7"><a></a>record_subject <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>record_subject <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<span id="cb6-2"><a></a>  <span class="at">query =</span> <span class="st">'"orkesterimusiikki"'</span>,</span>
+<span id="cb6-3"><a></a>  <span class="at">type =</span> <span class="st">"Subject"</span>,</span>
+<span id="cb6-4"><a></a>  <span class="at">lng =</span> <span class="st">"en"</span></span>
+<span id="cb6-5"><a></a>  )</span>
+<span id="cb6-6"><a></a></span>
+<span id="cb6-7"><a></a>record_subject <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="search-operators-and--">🔹 Search operators (+ and !-)</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co"># Must include economics, Keynes optional</span></span>
-<span id="cb9-2"><a></a></span>
-<span id="cb9-3"><a></a>plus_example <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"+economics Keynes"</span>)</span>
-<span id="cb9-4"><a></a></span>
-<span id="cb9-5"><a></a><span class="co"># Exclude Keynes (multi-word search only)</span></span>
-<span id="cb9-6"><a></a></span>
-<span id="cb9-7"><a></a>minus_example <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"economics !-Keynes"</span>)</span>
-<span id="cb9-8"><a></a></span>
-<span id="cb9-9"><a></a>plus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
-<span id="cb9-10"><a></a>minus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a><span class="co"># Must include economics, Keynes optional</span></span>
+<span id="cb7-2"><a></a></span>
+<span id="cb7-3"><a></a>plus_example <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"+economics Keynes"</span>)</span>
+<span id="cb7-4"><a></a></span>
+<span id="cb7-5"><a></a><span class="co"># Exclude Keynes (multi-word search only)</span></span>
+<span id="cb7-6"><a></a></span>
+<span id="cb7-7"><a></a>minus_example <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"economics !-Keynes"</span>)</span>
+<span id="cb7-8"><a></a></span>
+<span id="cb7-9"><a></a>plus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb7-10"><a></a>minus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="fuzzy-and-proximity-search">🔹 Fuzzy and proximity search</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co"># Fuzzy search</span></span>
-<span id="cb10-2"><a></a></span>
-<span id="cb10-3"><a></a>fuzzy_search <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"roam~"</span>)</span>
-<span id="cb10-4"><a></a></span>
-<span id="cb10-5"><a></a><span class="co"># Proximity search</span></span>
-<span id="cb10-6"><a></a></span>
-<span id="cb10-7"><a></a>prox_search <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"economics Keynes~10"</span>)</span>
-<span id="cb10-8"><a></a></span>
-<span id="cb10-9"><a></a>fuzzy_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
-<span id="cb10-10"><a></a>prox_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a><span class="co"># Fuzzy search</span></span>
+<span id="cb8-2"><a></a></span>
+<span id="cb8-3"><a></a>fuzzy_search <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"roam~"</span>)</span>
+<span id="cb8-4"><a></a></span>
+<span id="cb8-5"><a></a><span class="co"># Proximity search</span></span>
+<span id="cb8-6"><a></a></span>
+<span id="cb8-7"><a></a>prox_search <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"economics Keynes~10"</span>)</span>
+<span id="cb8-8"><a></a></span>
+<span id="cb8-9"><a></a>fuzzy_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
+<span id="cb8-10"><a></a>prox_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="case-study-1-fennica" class="slide level2">
 <h2>Case study 1: Fennica</h2>
 <h3 id="basic-fennica-search">Basic Fennica search</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>fennica <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
-<span id="cb11-2"><a></a>  <span class="st">"*"</span>,</span>
-<span id="cb11-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>)</span>
-<span id="cb11-4"><a></a>)</span>
-<span id="cb11-5"><a></a></span>
-<span id="cb11-6"><a></a>fennica <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>fennica <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<span id="cb9-2"><a></a>  <span class="st">"*"</span>,</span>
+<span id="cb9-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>)</span>
+<span id="cb9-4"><a></a>)</span>
+<span id="cb9-5"><a></a></span>
+<span id="cb9-6"><a></a>fennica <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="th-century-fennica-18091917">🔹 19th-century Fennica (1809–1917)</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>fennica_19c <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
-<span id="cb12-2"><a></a>  <span class="st">"*"</span>,</span>
-<span id="cb12-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(</span>
-<span id="cb12-4"><a></a>    <span class="st">'collection:"FEN"'</span>,</span>
-<span id="cb12-5"><a></a>    <span class="st">'search_daterange_mv:"overlap|[1809 TO 1917]"'</span></span>
-<span id="cb12-6"><a></a>    )</span>
-<span id="cb12-7"><a></a>)</span>
-<span id="cb12-8"><a></a></span>
-<span id="cb12-9"><a></a><span class="fu">attr</span>(fennica_19c, <span class="st">"result_count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>fennica_19c <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<span id="cb10-2"><a></a>  <span class="st">"*"</span>,</span>
+<span id="cb10-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(</span>
+<span id="cb10-4"><a></a>    <span class="st">'collection:"FEN"'</span>,</span>
+<span id="cb10-5"><a></a>    <span class="st">'search_daterange_mv:"overlap|[1809 TO 1917]"'</span></span>
+<span id="cb10-6"><a></a>    )</span>
+<span id="cb10-7"><a></a>)</span>
+<span id="cb10-8"><a></a></span>
+<span id="cb10-9"><a></a><span class="fu">attr</span>(fennica_19c, <span class="st">"result_count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="fennica-publication-year-distribution">🔹 Fennica publication year distribution</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="co">#| label: fennica-plot</span></span>
-<span id="cb13-2"><a></a><span class="co">#| eval: false</span></span>
-<span id="cb13-3"><a></a></span>
-<span id="cb13-4"><a></a><span class="fu">library</span>(finna)</span>
-<span id="cb13-5"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb13-6"><a></a>fennica <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
-<span id="cb13-7"><a></a>  <span class="st">"*"</span>,</span>
-<span id="cb13-8"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>, <span class="st">'search_daterange_mv:"[1809 TO 1918]"'</span>))</span>
-<span id="cb13-9"><a></a>refined_data <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(fennica)</span>
-<span id="cb13-10"><a></a><span class="fu">top_plot</span>(refined_data<span class="sc">$</span>Year, <span class="at">field =</span> <span class="st">"Year"</span>,  <span class="at">ntop =</span> <span class="dv">10</span>, <span class="at">show.percentage =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb13-11"><a></a>  <span class="fu">xlab</span>(<span class="st">"Publication Year"</span>) <span class="sc">+</span> </span>
-<span id="cb13-12"><a></a>  <span class="fu">ylab</span>(<span class="st">"percentage distribution of Publications"</span>)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="co">#| label: fennica-plot</span></span>
+<span id="cb11-2"><a></a><span class="co">#| eval: false</span></span>
+<span id="cb11-3"><a></a></span>
+<span id="cb11-4"><a></a><span class="fu">library</span>(finna)</span>
+<span id="cb11-5"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb11-6"><a></a>fennica <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<span id="cb11-7"><a></a>  <span class="st">"*"</span>,</span>
+<span id="cb11-8"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>, <span class="st">'search_daterange_mv:"[1809 TO 1918]"'</span>))</span>
+<span id="cb11-9"><a></a>refined_data <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(fennica)</span>
+<span id="cb11-10"><a></a><span class="fu">top_plot</span>(refined_data<span class="sc">$</span>Year, <span class="at">field =</span> <span class="st">"Year"</span>,  <span class="at">ntop =</span> <span class="dv">10</span>, <span class="at">show.percentage =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb11-11"><a></a>  <span class="fu">xlab</span>(<span class="st">"Publication Year"</span>) <span class="sc">+</span> </span>
+<span id="cb11-12"><a></a>  <span class="fu">ylab</span>(<span class="st">"percentage distribution of Publications"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 </div>
 <img data-src="workshop_files/figure-revealjs/unnamed-chunk-1-1.png" width="960" class="r-stretch"></section>
@@ -432,79 +403,79 @@ Omitted ‘LazyData’ from DESCRIPTION
 <h2>🎼 Case study 2: Viola (official vignette)</h2>
 <h3 id="batch-retrieval-across-centuries">🔹 Batch retrieval across centuries</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>viola_results <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
-<span id="cb14-2"><a></a><span class="at">base_query =</span> <span class="st">"*"</span>,</span>
-<span id="cb14-3"><a></a><span class="at">base_filters =</span> <span class="fu">c</span>(<span class="st">'collection:"VIO"'</span>),</span>
-<span id="cb14-4"><a></a><span class="at">year_ranges =</span> <span class="fu">list</span>(</span>
-<span id="cb14-5"><a></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1699</span>),</span>
-<span id="cb14-6"><a></a>  <span class="fu">c</span>(<span class="dv">1700</span>, <span class="dv">1799</span>),</span>
-<span id="cb14-7"><a></a>  <span class="fu">c</span>(<span class="dv">1800</span>, <span class="dv">1899</span>)</span>
-<span id="cb14-8"><a></a>  ),</span>
-<span id="cb14-9"><a></a><span class="at">include_na =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb14-10"><a></a><span class="at">limit_per_query =</span> <span class="dv">100000</span>,</span>
-<span id="cb14-11"><a></a><span class="at">total_limit =</span> <span class="dv">5000</span>,</span>
-<span id="cb14-12"><a></a><span class="at">delay_after_query =</span> <span class="dv">3</span></span>
-<span id="cb14-13"><a></a>)</span>
-<span id="cb14-14"><a></a></span>
-<span id="cb14-15"><a></a><span class="fu">nrow</span>(viola_results)</span>
-<span id="cb14-16"><a></a>viola_results <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>viola_results <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
+<span id="cb12-2"><a></a><span class="at">base_query =</span> <span class="st">"*"</span>,</span>
+<span id="cb12-3"><a></a><span class="at">base_filters =</span> <span class="fu">c</span>(<span class="st">'collection:"VIO"'</span>),</span>
+<span id="cb12-4"><a></a><span class="at">year_ranges =</span> <span class="fu">list</span>(</span>
+<span id="cb12-5"><a></a>  <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1699</span>),</span>
+<span id="cb12-6"><a></a>  <span class="fu">c</span>(<span class="dv">1700</span>, <span class="dv">1799</span>),</span>
+<span id="cb12-7"><a></a>  <span class="fu">c</span>(<span class="dv">1800</span>, <span class="dv">1899</span>)</span>
+<span id="cb12-8"><a></a>  ),</span>
+<span id="cb12-9"><a></a><span class="at">include_na =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-10"><a></a><span class="at">limit_per_query =</span> <span class="dv">100000</span>,</span>
+<span id="cb12-11"><a></a><span class="at">total_limit =</span> <span class="dv">5000</span>,</span>
+<span id="cb12-12"><a></a><span class="at">delay_after_query =</span> <span class="dv">3</span></span>
+<span id="cb12-13"><a></a>)</span>
+<span id="cb12-14"><a></a></span>
+<span id="cb12-15"><a></a><span class="fu">nrow</span>(viola_results)</span>
+<span id="cb12-16"><a></a>viola_results <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="viola-top-10-authors">🔹 Viola: top-10 authors</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>refined_viola <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(viola_results)</span>
-<span id="cb15-2"><a></a></span>
-<span id="cb15-3"><a></a><span class="fu">top_plot</span>(</span>
-<span id="cb15-4"><a></a>  refined_viola<span class="sc">$</span>Author,</span>
-<span id="cb15-5"><a></a>  <span class="at">field =</span> <span class="st">"Author"</span>,</span>
-<span id="cb15-6"><a></a>  <span class="at">ntop =</span> <span class="dv">10</span>,</span>
-<span id="cb15-7"><a></a>  <span class="at">show.percentage =</span> <span class="cn">TRUE</span></span>
-<span id="cb15-8"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb15-9"><a></a>  <span class="fu">xlab</span>(<span class="st">"Author"</span>) <span class="sc">+</span></span>
-<span id="cb15-10"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>refined_viola <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(viola_results)</span>
+<span id="cb13-2"><a></a></span>
+<span id="cb13-3"><a></a><span class="fu">top_plot</span>(</span>
+<span id="cb13-4"><a></a>  refined_viola<span class="sc">$</span>Author,</span>
+<span id="cb13-5"><a></a>  <span class="at">field =</span> <span class="st">"Author"</span>,</span>
+<span id="cb13-6"><a></a>  <span class="at">ntop =</span> <span class="dv">10</span>,</span>
+<span id="cb13-7"><a></a>  <span class="at">show.percentage =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-8"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb13-9"><a></a>  <span class="fu">xlab</span>(<span class="st">"Author"</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="finna-collection-overview-archives-example" class="slide level2">
 <h2>🗂️ Finna collection overview (archives example)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>collection_overview <span class="ot">&lt;-</span> <span class="fu">fetch_finna</span>(</span>
-<span id="cb16-2"><a></a>  <span class="at">query =</span> <span class="st">"record_format:ead"</span>,</span>
-<span id="cb16-3"><a></a>  <span class="at">limit =</span> <span class="dv">0</span>,</span>
-<span id="cb16-4"><a></a>  <span class="at">facets =</span> <span class="st">"building"</span>,</span>
-<span id="cb16-5"><a></a>  <span class="at">lng =</span> <span class="st">"fi"</span>,</span>
-<span id="cb16-6"><a></a>  <span class="at">prettyPrint =</span> <span class="cn">TRUE</span></span>
-<span id="cb16-7"><a></a>)</span>
-<span id="cb16-8"><a></a></span>
-<span id="cb16-9"><a></a>collection_overview</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>collection_overview <span class="ot">&lt;-</span> <span class="fu">fetch_finna</span>(</span>
+<span id="cb14-2"><a></a>  <span class="at">query =</span> <span class="st">"record_format:ead"</span>,</span>
+<span id="cb14-3"><a></a>  <span class="at">limit =</span> <span class="dv">0</span>,</span>
+<span id="cb14-4"><a></a>  <span class="at">facets =</span> <span class="st">"building"</span>,</span>
+<span id="cb14-5"><a></a>  <span class="at">lng =</span> <span class="st">"fi"</span>,</span>
+<span id="cb14-6"><a></a>  <span class="at">prettyPrint =</span> <span class="cn">TRUE</span></span>
+<span id="cb14-7"><a></a>)</span>
+<span id="cb14-8"><a></a></span>
+<span id="cb14-9"><a></a>collection_overview</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="enrichment-fennica-authors-kanto" class="slide level2">
 <h2>Enrichment: Fennica authors → KANTO</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">library</span>(finto)</span>
-<span id="cb17-2"><a></a><span class="fu">library</span>(stringr)</span>
-<span id="cb17-3"><a></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb17-4"><a></a></span>
-<span id="cb17-5"><a></a><span class="fu">data</span>(<span class="st">"fennica_subset"</span>, <span class="at">package =</span> <span class="st">"finna"</span>)</span>
-<span id="cb17-6"><a></a></span>
-<span id="cb17-7"><a></a>authors_df <span class="ot">&lt;-</span> finto<span class="sc">::</span><span class="fu">get_kanto</span>(fennica_subset)</span>
-<span id="cb17-8"><a></a></span>
-<span id="cb17-9"><a></a>fennica_subset2 <span class="ot">&lt;-</span> fennica_subset <span class="sc">%&gt;%</span></span>
-<span id="cb17-10"><a></a><span class="fu">mutate</span>(<span class="at">authorID =</span> <span class="fu">str_extract</span>(author_ID, <span class="st">"\d{9}"</span>))</span>
-<span id="cb17-11"><a></a></span>
-<span id="cb17-12"><a></a>authors_df_clean <span class="ot">&lt;-</span> authors_df <span class="sc">%&gt;%</span> </span>
-<span id="cb17-13"><a></a>  <span class="fu">distinct</span>(author_ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-14"><a></a>  <span class="fu">rename</span>(<span class="at">authorID =</span> author_ID)</span>
-<span id="cb17-15"><a></a></span>
-<span id="cb17-16"><a></a>merged_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
-<span id="cb17-17"><a></a>  fennica_subset2,</span>
-<span id="cb17-18"><a></a>  authors_df_clean,</span>
-<span id="cb17-19"><a></a>  <span class="at">by =</span> <span class="st">"authorID"</span></span>
-<span id="cb17-20"><a></a>)</span>
-<span id="cb17-21"><a></a></span>
-<span id="cb17-22"><a></a>merged_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">library</span>(finto)</span>
+<span id="cb15-2"><a></a><span class="fu">library</span>(stringr)</span>
+<span id="cb15-3"><a></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-4"><a></a></span>
+<span id="cb15-5"><a></a><span class="fu">data</span>(<span class="st">"fennica_subset"</span>, <span class="at">package =</span> <span class="st">"finna"</span>)</span>
+<span id="cb15-6"><a></a></span>
+<span id="cb15-7"><a></a>authors_df <span class="ot">&lt;-</span> finto<span class="sc">::</span><span class="fu">get_kanto</span>(fennica_subset)</span>
+<span id="cb15-8"><a></a></span>
+<span id="cb15-9"><a></a>fennica_subset2 <span class="ot">&lt;-</span> fennica_subset <span class="sc">%&gt;%</span></span>
+<span id="cb15-10"><a></a><span class="fu">mutate</span>(<span class="at">authorID =</span> <span class="fu">str_extract</span>(author_ID, <span class="st">"\d{9}"</span>))</span>
+<span id="cb15-11"><a></a></span>
+<span id="cb15-12"><a></a>authors_df_clean <span class="ot">&lt;-</span> authors_df <span class="sc">%&gt;%</span> </span>
+<span id="cb15-13"><a></a>  <span class="fu">distinct</span>(author_ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-14"><a></a>  <span class="fu">rename</span>(<span class="at">authorID =</span> author_ID)</span>
+<span id="cb15-15"><a></a></span>
+<span id="cb15-16"><a></a>merged_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
+<span id="cb15-17"><a></a>  fennica_subset2,</span>
+<span id="cb15-18"><a></a>  authors_df_clean,</span>
+<span id="cb15-19"><a></a>  <span class="at">by =</span> <span class="st">"authorID"</span></span>
+<span id="cb15-20"><a></a>)</span>
+<span id="cb15-21"><a></a></span>
+<span id="cb15-22"><a></a>merged_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
@@ -523,32 +494,32 @@ Omitted ‘LazyData’ from DESCRIPTION
 <li class="fragment">Plot publications per year</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="co"># Your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="co"># Your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-1-solution" class="slide level2">
 <h2>Exercise 1 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>fen_1900_1950 <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
-<span id="cb19-2"><a></a>  <span class="at">query =</span> <span class="st">"*"</span>,</span>
-<span id="cb19-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(</span>
-<span id="cb19-4"><a></a>    <span class="st">'collection:"FEN"'</span>,</span>
-<span id="cb19-5"><a></a>    <span class="st">'search_daterange_mv:"overlap|[1900 TO 1950]"'</span></span>
-<span id="cb19-6"><a></a>  ),</span>
-<span id="cb19-7"><a></a>  <span class="at">limit =</span> <span class="dv">5000</span></span>
-<span id="cb19-8"><a></a>)</span>
-<span id="cb19-9"><a></a></span>
-<span id="cb19-10"><a></a>fen_1900_1950 <span class="sc">%&gt;%</span></span>
-<span id="cb19-11"><a></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.integer</span>(Year))) <span class="sc">%&gt;%</span></span>
-<span id="cb19-12"><a></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year)) <span class="sc">%&gt;%</span></span>
-<span id="cb19-13"><a></a>  <span class="fu">count</span>(Year) <span class="sc">%&gt;%</span></span>
-<span id="cb19-14"><a></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year, n)) <span class="sc">+</span></span>
-<span id="cb19-15"><a></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb19-16"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb19-17"><a></a>    <span class="at">title =</span> <span class="st">"Fennica publications per year (1900–1950 sample)"</span>,</span>
-<span id="cb19-18"><a></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb19-19"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb19-20"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>fen_1900_1950 <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<span id="cb17-2"><a></a>  <span class="at">query =</span> <span class="st">"*"</span>,</span>
+<span id="cb17-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(</span>
+<span id="cb17-4"><a></a>    <span class="st">'collection:"FEN"'</span>,</span>
+<span id="cb17-5"><a></a>    <span class="st">'search_daterange_mv:"overlap|[1900 TO 1950]"'</span></span>
+<span id="cb17-6"><a></a>  ),</span>
+<span id="cb17-7"><a></a>  <span class="at">limit =</span> <span class="dv">5000</span></span>
+<span id="cb17-8"><a></a>)</span>
+<span id="cb17-9"><a></a></span>
+<span id="cb17-10"><a></a>fen_1900_1950 <span class="sc">%&gt;%</span></span>
+<span id="cb17-11"><a></a>  <span class="fu">mutate</span>(<span class="at">Year =</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.integer</span>(Year))) <span class="sc">%&gt;%</span></span>
+<span id="cb17-12"><a></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year)) <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a></a>  <span class="fu">count</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb17-14"><a></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year, n)) <span class="sc">+</span></span>
+<span id="cb17-15"><a></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb17-16"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-17"><a></a>    <span class="at">title =</span> <span class="st">"Fennica publications per year (1900–1950 sample)"</span>,</span>
+<span id="cb17-18"><a></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb17-19"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb17-20"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-2-fennica-compare-two-languages-or-formats" class="slide level2">
@@ -559,34 +530,34 @@ Omitted ‘LazyData’ from DESCRIPTION
 <li class="fragment">Compare counts over time (facet or color)</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="co"># Your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="co"># Your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-2-solution" class="slide level2">
 <h2>Exercise 2 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>fen <span class="ot">&lt;-</span> fen_1900_1950 <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-3"><a></a>    <span class="at">Year =</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.integer</span>(Year)),</span>
-<span id="cb21-4"><a></a>    <span class="at">Language =</span> <span class="fu">as.character</span>(Language)</span>
-<span id="cb21-5"><a></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-6"><a></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year), <span class="sc">!</span><span class="fu">is.na</span>(Language))</span>
-<span id="cb21-7"><a></a></span>
-<span id="cb21-8"><a></a>top_lang <span class="ot">&lt;-</span> fen <span class="sc">%&gt;%</span></span>
-<span id="cb21-9"><a></a>  <span class="fu">count</span>(Language, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-10"><a></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-11"><a></a>  <span class="fu">pull</span>(Language)</span>
-<span id="cb21-12"><a></a></span>
-<span id="cb21-13"><a></a>fen <span class="sc">%&gt;%</span></span>
-<span id="cb21-14"><a></a>  <span class="fu">filter</span>(Language <span class="sc">%in%</span> top_lang) <span class="sc">%&gt;%</span></span>
-<span id="cb21-15"><a></a>  <span class="fu">count</span>(Year, Language) <span class="sc">%&gt;%</span></span>
-<span id="cb21-16"><a></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year, n, <span class="at">color =</span> Language)) <span class="sc">+</span></span>
-<span id="cb21-17"><a></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb21-18"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb21-19"><a></a>    <span class="at">title =</span> <span class="st">"Two most common languages over time (sample)"</span>,</span>
-<span id="cb21-20"><a></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb21-21"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb21-22"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a>fen <span class="ot">&lt;-</span> fen_1900_1950 <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-3"><a></a>    <span class="at">Year =</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.integer</span>(Year)),</span>
+<span id="cb19-4"><a></a>    <span class="at">Language =</span> <span class="fu">as.character</span>(Language)</span>
+<span id="cb19-5"><a></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year), <span class="sc">!</span><span class="fu">is.na</span>(Language))</span>
+<span id="cb19-7"><a></a></span>
+<span id="cb19-8"><a></a>top_lang <span class="ot">&lt;-</span> fen <span class="sc">%&gt;%</span></span>
+<span id="cb19-9"><a></a>  <span class="fu">count</span>(Language, <span class="at">sort =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-10"><a></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-11"><a></a>  <span class="fu">pull</span>(Language)</span>
+<span id="cb19-12"><a></a></span>
+<span id="cb19-13"><a></a>fen <span class="sc">%&gt;%</span></span>
+<span id="cb19-14"><a></a>  <span class="fu">filter</span>(Language <span class="sc">%in%</span> top_lang) <span class="sc">%&gt;%</span></span>
+<span id="cb19-15"><a></a>  <span class="fu">count</span>(Year, Language) <span class="sc">%&gt;%</span></span>
+<span id="cb19-16"><a></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(Year, n, <span class="at">color =</span> Language)) <span class="sc">+</span></span>
+<span id="cb19-17"><a></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb19-18"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-19"><a></a>    <span class="at">title =</span> <span class="st">"Two most common languages over time (sample)"</span>,</span>
+<span id="cb19-20"><a></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb19-21"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb19-22"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-3-viola-top-10-authors-and-share" class="slide level2">
@@ -597,27 +568,27 @@ Omitted ‘LazyData’ from DESCRIPTION
 <li class="fragment">Plot top-10 authors with percentages</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="co"># Your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a><span class="co"># Your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-3-solution" class="slide level2">
 <h2>Exercise 3 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a>viola_1900_1949 <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
-<span id="cb23-2"><a></a>  <span class="at">base_query =</span> <span class="st">"*"</span>,</span>
-<span id="cb23-3"><a></a>  <span class="at">base_filters =</span> <span class="fu">c</span>(<span class="st">'collection:"VIO"'</span>),</span>
-<span id="cb23-4"><a></a>  <span class="at">year_ranges =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1900</span>, <span class="dv">1949</span>)),</span>
-<span id="cb23-5"><a></a>  <span class="at">include_na =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb23-6"><a></a>  <span class="at">limit_per_query =</span> <span class="dv">100000</span>,</span>
-<span id="cb23-7"><a></a>  <span class="at">total_limit =</span> <span class="dv">5000</span>,</span>
-<span id="cb23-8"><a></a>  <span class="at">delay_after_query =</span> <span class="dv">1</span></span>
-<span id="cb23-9"><a></a>)</span>
-<span id="cb23-10"><a></a></span>
-<span id="cb23-11"><a></a>ref_v <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(viola_1900_1949)</span>
-<span id="cb23-12"><a></a></span>
-<span id="cb23-13"><a></a><span class="fu">top_plot</span>(ref_v<span class="sc">$</span>Author, <span class="at">field =</span> <span class="st">"Author"</span>, <span class="at">ntop =</span> <span class="dv">10</span>, <span class="at">show.percentage =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb23-14"><a></a>  <span class="fu">xlab</span>(<span class="st">"Author"</span>) <span class="sc">+</span></span>
-<span id="cb23-15"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a>viola_1900_1949 <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
+<span id="cb21-2"><a></a>  <span class="at">base_query =</span> <span class="st">"*"</span>,</span>
+<span id="cb21-3"><a></a>  <span class="at">base_filters =</span> <span class="fu">c</span>(<span class="st">'collection:"VIO"'</span>),</span>
+<span id="cb21-4"><a></a>  <span class="at">year_ranges =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1900</span>, <span class="dv">1949</span>)),</span>
+<span id="cb21-5"><a></a>  <span class="at">include_na =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb21-6"><a></a>  <span class="at">limit_per_query =</span> <span class="dv">100000</span>,</span>
+<span id="cb21-7"><a></a>  <span class="at">total_limit =</span> <span class="dv">5000</span>,</span>
+<span id="cb21-8"><a></a>  <span class="at">delay_after_query =</span> <span class="dv">1</span></span>
+<span id="cb21-9"><a></a>)</span>
+<span id="cb21-10"><a></a></span>
+<span id="cb21-11"><a></a>ref_v <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(viola_1900_1949)</span>
+<span id="cb21-12"><a></a></span>
+<span id="cb21-13"><a></a><span class="fu">top_plot</span>(ref_v<span class="sc">$</span>Author, <span class="at">field =</span> <span class="st">"Author"</span>, <span class="at">ntop =</span> <span class="dv">10</span>, <span class="at">show.percentage =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb21-14"><a></a>  <span class="fu">xlab</span>(<span class="st">"Author"</span>) <span class="sc">+</span></span>
+<span id="cb21-15"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-4-enrichment-join-kanto-and-inspect-new-fields" class="slide level2">
@@ -629,32 +600,32 @@ Omitted ‘LazyData’ from DESCRIPTION
 <li class="fragment">Join back and list 5 enriched columns you didn’t have before</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="co"># Your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a><span class="co"># Your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-4-solution" class="slide level2">
 <h2>Exercise 4 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a><span class="fu">data</span>(<span class="st">"fennica_subset"</span>, <span class="at">package =</span> <span class="st">"finna"</span>)</span>
-<span id="cb25-2"><a></a></span>
-<span id="cb25-3"><a></a>authors_df <span class="ot">&lt;-</span> finto<span class="sc">::</span><span class="fu">get_kanto</span>(fennica_subset)</span>
-<span id="cb25-4"><a></a></span>
-<span id="cb25-5"><a></a>fennica_subset2 <span class="ot">&lt;-</span> fennica_subset <span class="sc">%&gt;%</span></span>
-<span id="cb25-6"><a></a>  <span class="fu">mutate</span>(<span class="at">authorID =</span> stringr<span class="sc">::</span><span class="fu">str_extract</span>(author_ID, <span class="st">"</span><span class="sc">\\</span><span class="st">d{9}"</span>))</span>
-<span id="cb25-7"><a></a></span>
-<span id="cb25-8"><a></a>authors_df_clean <span class="ot">&lt;-</span> authors_df <span class="sc">%&gt;%</span></span>
-<span id="cb25-9"><a></a>  <span class="fu">distinct</span>(author_ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb25-10"><a></a>  <span class="fu">rename</span>(<span class="at">authorID =</span> author_ID)</span>
-<span id="cb25-11"><a></a></span>
-<span id="cb25-12"><a></a>joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fennica_subset2, authors_df_clean, <span class="at">by =</span> <span class="st">"authorID"</span>)</span>
-<span id="cb25-13"><a></a></span>
-<span id="cb25-14"><a></a><span class="co"># Columns added by enrichment (rough heuristic)</span></span>
-<span id="cb25-15"><a></a>added_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(joined), <span class="fu">names</span>(fennica_subset2))</span>
-<span id="cb25-16"><a></a>added_cols <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>)</span>
-<span id="cb25-17"><a></a></span>
-<span id="cb25-18"><a></a><span class="co"># Example: show a few enriched fields if present</span></span>
-<span id="cb25-19"><a></a>joined <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"author_name"</span>, <span class="st">"authorID"</span>, <span class="st">"uri"</span>, <span class="st">"type"</span>)), <span class="fu">any_of</span>(added_cols)) <span class="sc">%&gt;%</span></span>
-<span id="cb25-20"><a></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="fu">data</span>(<span class="st">"fennica_subset"</span>, <span class="at">package =</span> <span class="st">"finna"</span>)</span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a>authors_df <span class="ot">&lt;-</span> finto<span class="sc">::</span><span class="fu">get_kanto</span>(fennica_subset)</span>
+<span id="cb23-4"><a></a></span>
+<span id="cb23-5"><a></a>fennica_subset2 <span class="ot">&lt;-</span> fennica_subset <span class="sc">%&gt;%</span></span>
+<span id="cb23-6"><a></a>  <span class="fu">mutate</span>(<span class="at">authorID =</span> stringr<span class="sc">::</span><span class="fu">str_extract</span>(author_ID, <span class="st">"</span><span class="sc">\\</span><span class="st">d{9}"</span>))</span>
+<span id="cb23-7"><a></a></span>
+<span id="cb23-8"><a></a>authors_df_clean <span class="ot">&lt;-</span> authors_df <span class="sc">%&gt;%</span></span>
+<span id="cb23-9"><a></a>  <span class="fu">distinct</span>(author_ID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb23-10"><a></a>  <span class="fu">rename</span>(<span class="at">authorID =</span> author_ID)</span>
+<span id="cb23-11"><a></a></span>
+<span id="cb23-12"><a></a>joined <span class="ot">&lt;-</span> <span class="fu">left_join</span>(fennica_subset2, authors_df_clean, <span class="at">by =</span> <span class="st">"authorID"</span>)</span>
+<span id="cb23-13"><a></a></span>
+<span id="cb23-14"><a></a><span class="co"># Columns added by enrichment (rough heuristic)</span></span>
+<span id="cb23-15"><a></a>added_cols <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(joined), <span class="fu">names</span>(fennica_subset2))</span>
+<span id="cb23-16"><a></a>added_cols <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">20</span>)</span>
+<span id="cb23-17"><a></a></span>
+<span id="cb23-18"><a></a><span class="co"># Example: show a few enriched fields if present</span></span>
+<span id="cb23-19"><a></a>joined <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"author_name"</span>, <span class="st">"authorID"</span>, <span class="st">"uri"</span>, <span class="st">"type"</span>)), <span class="fu">any_of</span>(added_cols)) <span class="sc">%&gt;%</span></span>
+<span id="cb23-20"><a></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="take-home-message" class="slide level2">
@@ -677,17 +648,17 @@ Omitted ‘LazyData’ from DESCRIPTION
 </section>
 <section id="cheat-sheet" class="slide level2">
 <h2>Cheat sheet</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a></a><span class="co"># Basic search</span></span>
-<span id="cb26-2"><a></a><span class="fu">search_finna</span>(query, filters, limit)</span>
-<span id="cb26-3"><a></a></span>
-<span id="cb26-4"><a></a><span class="co"># Fennica specific</span></span>
-<span id="cb26-5"><a></a><span class="fu">search_finna</span>(<span class="st">"*"</span>, <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>))</span>
-<span id="cb26-6"><a></a></span>
-<span id="cb26-7"><a></a><span class="co"># Viola batching</span></span>
-<span id="cb26-8"><a></a><span class="fu">fetch_viola_records</span>(base_query, year_ranges)</span>
-<span id="cb26-9"><a></a></span>
-<span id="cb26-10"><a></a><span class="co"># Enrichment</span></span>
-<span id="cb26-11"><a></a>finto<span class="sc">::</span><span class="fu">get_kanto</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="co"># Basic search</span></span>
+<span id="cb24-2"><a></a><span class="fu">search_finna</span>(query, filters, limit)</span>
+<span id="cb24-3"><a></a></span>
+<span id="cb24-4"><a></a><span class="co"># Fennica specific</span></span>
+<span id="cb24-5"><a></a><span class="fu">search_finna</span>(<span class="st">"*"</span>, <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>))</span>
+<span id="cb24-6"><a></a></span>
+<span id="cb24-7"><a></a><span class="co"># Viola batching</span></span>
+<span id="cb24-8"><a></a><span class="fu">fetch_viola_records</span>(base_query, year_ranges)</span>
+<span id="cb24-9"><a></a></span>
+<span id="cb24-10"><a></a><span class="co"># Enrichment</span></span>
+<span id="cb24-11"><a></a>finto<span class="sc">::</span><span class="fu">get_kanto</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section></section>
@@ -880,7 +851,7 @@ Omitted ‘LazyData’ from DESCRIPTION
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -992,14 +963,13 @@ Omitted ‘LazyData’ from DESCRIPTION
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -1014,7 +984,7 @@ Omitted ‘LazyData’ from DESCRIPTION
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp("https:\/\/fennicahub\.github\.io\/DARIAH-FI-workshop\/");
+            var filterRegex = new RegExp('/' + window.location.host + '/');
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }

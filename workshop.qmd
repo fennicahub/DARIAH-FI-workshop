@@ -37,33 +37,6 @@ Examples and exercises are based on the **finna** package vignettes:
 
 ---
 
-## Setup (install)
-
-```{r}
-#| label: install-packages
-
-install.packages(c("remotes" , "tidyverse", "ggplot2"))
-remotes::install_github("fennicahub/finna")
-remotes::install_github("fennicahub/finto")
-
-```
-
----
-
-## Setup (load)
-
-```{r}
-#| label: load-libraries
-
-library(finna)
-library(finto)
-library(tidyverse)
-library(ggplot2)
-```
-
-::: notes
-If time is tight, you can run demo code and participants can follow later using the handout QMD.
-:::
 
 ---
 
@@ -104,6 +77,34 @@ If time is tight, you can run demo code and participants can follow later using 
 * Tidy outputs (tibbles) → easy `dplyr` + `ggplot2`
 
 ---
+
+
+## Setup (install)
+
+```{r}
+#| label: install-packages
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+install.packages(c("remotes", "tidyverse", "ggplot2"))
+
+remotes::install_github("fennicahub/finna")
+remotes::install_github("fennicahub/finto")
+
+```
+
+---
+
+## Setup (load)
+
+```{r}
+#| label: load-libraries
+
+library(finna)
+library(finto)
+library(tidyverse)
+library(ggplot2)
+```
 
 ---
 
@@ -201,8 +202,6 @@ fennica <- search_finna(
 fennica %>% slice_head(n = 10)
 
 ```
-
-
 
 
 ---
