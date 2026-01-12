@@ -19,19 +19,21 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install system libraries (curl + fonts + text shaping)
+      - name: Install system libraries (curl + ragg + text rendering)
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            pkg-config \
             libcurl4-openssl-dev \
             libssl-dev \
             libxml2-dev \
-            pkg-config \
+            libfontconfig1-dev \
             libfreetype6-dev \
             libharfbuzz-dev \
             libfribidi-dev \
             libpng-dev \
-            libfontconfig1-dev \
+            libcairo2-dev \
             fonts-dejavu-core
 
       - uses: r-lib/actions/setup-pandoc@v2
