@@ -54,7 +54,6 @@ install.packages(c(
 
 ```{r}
 #| label: load-libraries
-#| eval: false
 
 library(finna)
 library(finto)
