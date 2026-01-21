@@ -1,6 +1,6 @@
 ---
 title: "Retrieving and Analyzing Finnish Cultural Metadata with R"
-subtitle: "Finna, Fennica & Viola"
+subtitle: "Finna & Finto, Fennica & Viola"
 author: "Akewak Jeba, Julia Matveeva, Leo Lahti"
 date: today
 format:
@@ -24,6 +24,7 @@ execute:
 - Case study 1: Fennica
 - Case study 2: Viola
 - Enrichment with Finto / KANTO
+- Multinomial regression on enriched Fennica
 - Practical exercises (+ solutions)
 - Questions
 
@@ -37,8 +38,6 @@ Examples and exercises are based on the **finna** package vignettes:
 
 ---
 
-
----
 
 ## What is Finna?
 
@@ -134,7 +133,7 @@ record %>% slice_head(n = 10)
 record_subject <- search_finna(
   query = '"orkesterimusiikki"',
   type = "Subject",
-  lng = "en"
+  lng = "fi"
   )
 
 record_subject %>% slice_head(n = 10)
@@ -258,17 +257,17 @@ top_plot(refined_data$Year, field = "Year",  ntop = 10, show.percentage = TRUE) 
 #| eval: false
 
 viola_results <- fetch_viola_records(
-base_query = "*",
-base_filters = c('collection:"VIO"'),
-year_ranges = list(
-  c(0, 1699),
-  c(1700, 1799),
-  c(1800, 1899)
+  base_query = "*",
+  base_filters = c('collection:"VIO"'),
+  year_ranges = list(
+    c(0, 1699),
+    c(1700, 1799),
+    c(1800, 1899)
   ),
-include_na = TRUE,
-limit_per_query = 100000,
-total_limit = 5000,
-delay_after_query = 3
+  include_na = TRUE,
+  limit_per_query = 100000,
+  total_limit = 500,
+  delay_after_query = 3
 )
 
 nrow(viola_results)
@@ -317,6 +316,21 @@ collection_overview
 
 ```
 
+---
+
+## 🗂️ Harvest Metadata from an OAI-PMH Server
+
+```{r}
+#| label: harvest-metadata
+#| eval: false
+
+records_marc21 <- harvest_oai_pmh(
+  base_url = "https://api.finna.fi/OAI/Server",
+  metadata_prefix = "marc21",
+  user_agent = "MyCustomHarvester/1.0",
+  record_limit = 1000
+)
+```
 
 
 ---
@@ -355,6 +369,170 @@ merged_data %>% slice_head(n = 5)
 
 ---
 
+
+## Multinomial regression
+
+```{r}
+#| label: Multinomial-installation
+
+
+pkgs <- c("readr", "dplyr", "forcats", "nnet", "janitor")
+
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "https://cloud.r-project.org")
+}
+
+invisible(lapply(pkgs, library, character.only = TRUE))
+
+```
+
+
+---
+
+
+## Read data
+```{r}
+#| label: Multinomial-data
+
+
+url <- "https://a3s.fi/swift/v1/fennica-container/df.csv"
+
+df <- readr::read_csv(url, show_col_types = FALSE)
+
+head(df)
+```
+
+
+---
+
+
+
+## Counts and tables 
+```{r}
+#| label: Multinomial-counts
+
+df_counts <- df %>%
+  count(genre, gender, profession_metadata_profession_prefLabel_fi, name = "n")
+
+print(df_counts)
+
+```
+
+
+---
+
+## Gender table
+
+```{r}
+tab_gender <- janitor::tabyl(df, genre, gender)
+print(tab_gender)
+```
+
+
+---
+
+## Gender percentage
+
+```{r}
+tab_gender_pct <- janitor::adorn_percentages(tab_gender, "row") %>%
+  janitor::adorn_pct_formatting()
+
+print(tab_gender_pct)
+```
+
+
+
+## Prepare variables
+```{r}
+#| label: Multinomial-Variables
+
+
+df <- df %>%
+  mutate(
+    genre = factor(genre_008),
+    gender = factor(gender),
+    profession_metadata_profession_prefLabel_fi = factor(profession_metadata_profession_prefLabel_fi)
+  ) %>%
+  filter(genre %in% c("Kaunokirjallisuus", "Tietokirjallisuus")) %>%
+  mutate(
+    genre = relevel(genre, ref = "Kaunokirjallisuus")
+  )
+
+
+```
+
+
+---
+
+
+## Multinomial Model
+
+```{r}
+#| label: Multinomial-MODEL
+
+
+model_freq <- multinom(
+  genre ~ gender + profession_metadata_profession_prefLabel_fi,
+  data = df,
+  trace = FALSE
+)
+
+print(summary(model_freq))
+
+```
+
+
+
+---
+
+
+## Classic separation / sparsity problem
+
+```{r}
+table(df$profession_metadata_profession_prefLabel_fi, df$genre)
+```
+
+
+---
+
+## Collapse professions into meaningful groups
+
+```{r}
+df <- df %>%
+  mutate(
+    profession_group = case_when(
+      profession_metadata_profession_prefLabel_fi %in%
+        c("kirjailija", "professori, runoilija") ~ "kirjallinen ammatti",
+      
+      profession_metadata_profession_prefLabel_fi %in%
+        c("professori", "historiantutkija", "opettaja") ~ "akateeminen ammatti",
+      
+      profession_metadata_profession_prefLabel_fi %in%
+        c("lääkäri", "lääkäri, professori") ~ "lääketiede",
+      
+      TRUE ~ "muu"
+    ) %>% factor()
+  )
+
+```
+
+
+
+---
+
+## Re-run the model
+
+```{r}
+model_freq <- multinom(
+  genre ~ gender + profession_group,
+  data = df,
+  trace = FALSE
+)
+print(summary(model_freq))
+```
+
+
 # Exercises (with solutions)
 
 ---
@@ -366,12 +544,6 @@ merged_data %>% slice_head(n = 5)
 1. Retrieve Fennica records for **1900–1950** (sample is fine)
 2. Plot publications per year
 
-```{r}
-#| label: ex1-your-code
-#| eval: false
-
-# Your code here
-```
 
 ---
 
@@ -387,7 +559,7 @@ fen_1900_1950 <- search_finna(
     'collection:"FEN"',
     'search_daterange_mv:"overlap|[1900 TO 1950]"'
   ),
-  limit = 5000
+  limit = 500
 )
 
 fen_1900_1950 %>%
@@ -411,13 +583,6 @@ fen_1900_1950 %>%
 
 1. From your Fennica sample, pick two values of `Language` (or `Formats`)
 2. Compare counts over time (facet or color)
-
-```{r}
-#| label: ex2-your-code
-#| eval: false
-
-# Your code here
-```
 
 ---
 
@@ -460,12 +625,6 @@ fen %>%
 1. Use `fetch_viola_records()` for a small time window (e.g., 1900–1949)
 2. Plot top-10 authors with percentages
 
-```{r}
-#| label: ex3-your-code
-#| eval: false
-
-# Your code here
-```
 
 ---
 
@@ -481,7 +640,7 @@ viola_1900_1949 <- fetch_viola_records(
   year_ranges = list(c(1900, 1949)),
   include_na = FALSE,
   limit_per_query = 100000,
-  total_limit = 5000,
+  total_limit = 500,
   delay_after_query = 1
 )
 
@@ -502,12 +661,6 @@ top_plot(ref_v$Author, field = "Author", ntop = 10, show.percentage = TRUE) +
 2. Fetch KANTO author data with `get_kanto()`
 3. Join back and list 5 enriched columns you didn't have before
 
-```{r}
-#| label: ex4-your-code
-#| eval: false
-
-# Your code here
-```
 
 ---
 
@@ -530,7 +683,6 @@ authors_df_clean <- authors_df %>%
 
 joined <- left_join(fennica_subset2, authors_df_clean, by = "authorID")
 
-# Columns added by enrichment (rough heuristic)
 added_cols <- setdiff(names(joined), names(fennica_subset2))
 added_cols %>% head(20)
 
@@ -554,7 +706,7 @@ joined %>% select(any_of(c("author_name", "authorID", "uri", "type")), any_of(ad
 ## Troubleshooting
 
 * **API limits**: Use `limit` parameter and batching
-* **Rate limiting**: Add `delay_after_query` parameter
+* **Rate limiting**: Add `delay_per_query` parameter
 * **Missing data**: Use `filter(!is.na(field))`
 * **Date parsing**: Use `suppressWarnings(as.integer(Year))`
 
@@ -569,10 +721,28 @@ search_finna(query, filters, limit)
 # Fennica specific
 search_finna("*", filters = c('collection:"FEN"'))
 
+# Viola specific
+search_finna("*", filters = c('collection:"VIO"'))
+
 # Viola batching
 fetch_viola_records(base_query, year_ranges)
+
+# Metadata harvest
+harvest_oai_pmh(
+  base_url,
+  metadata_prefix,
+  user_agent = "FinnaHarvester/1.0",
+  record_limit = NULL
+)
 
 # Enrichment
 finto::get_kanto(data)
 
 ```
+
+
+# Thank You !{auto-animate="true"}
+::: {.columns}
+::: {.column width="99%"}
+:::
+::: {.column width="1%"} 
