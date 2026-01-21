@@ -4,7 +4,7 @@
     "href": "workshop.html#workshop-overview",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Workshop overview",
-    "text": "Workshop overview\n\nWhat is Finna (incl. Fennica & Viola)\nWhy use R for cultural metadata\nThe finna R package\nCase study 1: Fennica\nCase study 2: Viola\nEnrichment with Finto / KANTO\nPractical exercises (+ solutions)\nQuestions\n\n\nExamples and exercises are based on the finna package vignettes: - Introduction to finna - Fennica in Finna - Viola in Finna - Fennica Authors in Kanto"
+    "text": "Workshop overview\n\nWhat is Finna (incl. Fennica & Viola)\nWhy use R for cultural metadata\nThe finna R package\nCase study 1: Fennica\nCase study 2: Viola\nEnrichment with Finto / KANTO\nMultinomial regression on enriched Fennica\nPractical exercises (+ solutions)\nQuestions\n\n\nExamples and exercises are based on the finna package vignettes: - Introduction to finna - Fennica in Finna - Viola in Finna - Fennica Authors in Kanto"
   },
   {
     "objectID": "workshop.html#what-is-finna",
@@ -60,7 +60,7 @@
     "href": "workshop.html#case-study-2-viola-official-vignette",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "🎼 Case study 2: Viola (official vignette)",
-    "text": "🎼 Case study 2: Viola (official vignette)\n🔹 Batch retrieval across centuries\n\nviola_results &lt;- fetch_viola_records(\nbase_query = \"*\",\nbase_filters = c('collection:\"VIO\"'),\nyear_ranges = list(\n  c(0, 1699),\n  c(1700, 1799),\n  c(1800, 1899)\n  ),\ninclude_na = TRUE,\nlimit_per_query = 100000,\ntotal_limit = 5000,\ndelay_after_query = 3\n)\n\nnrow(viola_results)\nviola_results %&gt;% slice_head(n = 6)"
+    "text": "🎼 Case study 2: Viola (official vignette)\n🔹 Batch retrieval across centuries\n\nviola_results &lt;- fetch_viola_records(\n  base_query = \"*\",\n  base_filters = c('collection:\"VIO\"'),\n  year_ranges = list(\n    c(0, 1699),\n    c(1700, 1799),\n    c(1800, 1899)\n  ),\n  include_na = TRUE,\n  limit_per_query = 100000,\n  total_limit = 500,\n  delay_after_query = 3\n)\n\nnrow(viola_results)\nviola_results %&gt;% slice_head(n = 6)"
   },
   {
     "objectID": "workshop.html#finna-collection-overview-archives-example",
@@ -70,6 +70,13 @@
     "text": "🗂️ Finna collection overview (archives example)\n\ncollection_overview &lt;- fetch_finna(\n  query = \"record_format:ead\",\n  limit = 0,\n  facets = \"building\",\n  lng = \"fi\",\n  prettyPrint = TRUE\n)\n\ncollection_overview"
   },
   {
+    "objectID": "workshop.html#harvest-metadata-from-an-oai-pmh-server",
+    "href": "workshop.html#harvest-metadata-from-an-oai-pmh-server",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "🗂️ Harvest Metadata from an OAI-PMH Server",
+    "text": "🗂️ Harvest Metadata from an OAI-PMH Server\n\nrecords_marc21 &lt;- harvest_oai_pmh(\n  base_url = \"https://api.finna.fi/OAI/Server\",\n  metadata_prefix = \"marc21\",\n  user_agent = \"MyCustomHarvester/1.0\",\n  record_limit = 1000\n)"
+  },
+  {
     "objectID": "workshop.html#enrichment-fennica-authors-kanto",
     "href": "workshop.html#enrichment-fennica-authors-kanto",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
@@ -77,25 +84,95 @@
     "text": "Enrichment: Fennica authors → KANTO\n\nlibrary(finto)\nlibrary(stringr)\nlibrary(dplyr)\n\ndata(\"fennica_subset\", package = \"finna\")\n\nauthors_df &lt;- finto::get_kanto(fennica_subset)\n\nfennica_subset2 &lt;- fennica_subset %&gt;%\nmutate(authorID = str_extract(author_ID, \"\\d{9}\"))\n\nauthors_df_clean &lt;- authors_df %&gt;% \n  distinct(author_ID, .keep_all = TRUE) %&gt;% \n  rename(authorID = author_ID)\n\nmerged_data &lt;- left_join(\n  fennica_subset2,\n  authors_df_clean,\n  by = \"authorID\"\n)\n\nmerged_data %&gt;% slice_head(n = 5)"
   },
   {
+    "objectID": "workshop.html#multinomial-regression",
+    "href": "workshop.html#multinomial-regression",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Multinomial regression",
+    "text": "Multinomial regression\n\npkgs &lt;- c(\"readr\", \"dplyr\", \"forcats\", \"nnet\", \"janitor\")\n\nto_install &lt;- pkgs[!pkgs %in% rownames(installed.packages())]\nif (length(to_install) &gt; 0) {\n  install.packages(to_install, repos = \"https://cloud.r-project.org\")\n}\n\ninvisible(lapply(pkgs, library, character.only = TRUE))"
+  },
+  {
+    "objectID": "workshop.html#read-data",
+    "href": "workshop.html#read-data",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Read data",
+    "text": "Read data\n\nurl &lt;- \"https://a3s.fi/swift/v1/fennica-container/df.csv\"\n\ndf &lt;- readr::read_csv(url, show_col_types = FALSE)\n\nhead(df)\n\n# A tibble: 6 × 135\n   ...1 melinda_id data_element genre_008         record_type       biblio_level\n  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;       \n1     1 000864435  Kirjat       Tietokirjallisuus Language material Monograph/I…\n2     2 000864439  Kirjat       Tietokirjallisuus Language material Monograph/I…\n3     3 000864442  Kirjat       Tietokirjallisuus Language material Monograph/I…\n4     4 000864443  Kirjat       Tietokirjallisuus Language material Monograph/I…\n5     5 000864448  Kirjat       Tietokirjallisuus Language material Monograph/I…\n6     6 000864449  Kirjat       Tietokirjallisuus Language material Monograph/I…\n# ℹ 129 more variables: publication_status &lt;chr&gt;, lang_orig &lt;chr&gt;,\n#   author_name &lt;chr&gt;, author_name_enriched &lt;chr&gt;, gender &lt;chr&gt;,\n#   gender_primary &lt;chr&gt;, author_birth &lt;dbl&gt;, author_death &lt;dbl&gt;,\n#   author_age &lt;dbl&gt;, title_length &lt;dbl&gt;, title_word &lt;dbl&gt;, language &lt;chr&gt;,\n#   language_primary &lt;chr&gt;, language_multi &lt;lgl&gt;, publication_year_from &lt;dbl&gt;,\n#   publication_year_till &lt;lgl&gt;, publication_year &lt;dbl&gt;,\n#   publication_decade &lt;dbl&gt;, publication_place &lt;chr&gt;, …"
+  },
+  {
+    "objectID": "workshop.html#counts-and-tables",
+    "href": "workshop.html#counts-and-tables",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Counts and tables",
+    "text": "Counts and tables\n\ndf_counts &lt;- df %&gt;%\n  count(genre, gender, profession_metadata_profession_prefLabel_fi, name = \"n\")\n\nprint(df_counts)\n\n# A tibble: 17 × 4\n   genre             gender profession_metadata_profession_prefLabel_fi     n\n   &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;                                       &lt;int&gt;\n 1 Kaunokirjallisuus female kirjailija                                      6\n 2 Kaunokirjallisuus female opettaja                                        2\n 3 Kaunokirjallisuus male   kirjailija                                     11\n 4 Kaunokirjallisuus male   opettaja                                        1\n 5 Kaunokirjallisuus male   professori                                      1\n 6 Tietokirjallisuus female historiantutkija                                4\n 7 Tietokirjallisuus female kirjailija                                     28\n 8 Tietokirjallisuus female lääkäri                                         9\n 9 Tietokirjallisuus female opettaja                                       15\n10 Tietokirjallisuus female professori                                     10\n11 Tietokirjallisuus male   historiantutkija                              219\n12 Tietokirjallisuus male   kirjailija                                     96\n13 Tietokirjallisuus male   lääkäri                                       333\n14 Tietokirjallisuus male   lääkäri, professori                           121\n15 Tietokirjallisuus male   opettaja                                      119\n16 Tietokirjallisuus male   professori                                    882\n17 Tietokirjallisuus male   professori, runoilija                         244"
+  },
+  {
+    "objectID": "workshop.html#gender-table",
+    "href": "workshop.html#gender-table",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Gender table",
+    "text": "Gender table\n\ntab_gender &lt;- janitor::tabyl(df, genre, gender)\nprint(tab_gender)\n\n             genre female male\n Kaunokirjallisuus      8   13\n Tietokirjallisuus     66 2014"
+  },
+  {
+    "objectID": "workshop.html#gender-percentage",
+    "href": "workshop.html#gender-percentage",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Gender percentage",
+    "text": "Gender percentage\n\ntab_gender_pct &lt;- janitor::adorn_percentages(tab_gender, \"row\") %&gt;%\n  janitor::adorn_pct_formatting()\n\nprint(tab_gender_pct)\n\n             genre female  male\n Kaunokirjallisuus  38.1% 61.9%\n Tietokirjallisuus   3.2% 96.8%"
+  },
+  {
+    "objectID": "workshop.html#prepare-variables",
+    "href": "workshop.html#prepare-variables",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Prepare variables",
+    "text": "Prepare variables\n\ndf &lt;- df %&gt;%\n  mutate(\n    genre = factor(genre_008),\n    gender = factor(gender),\n    profession_metadata_profession_prefLabel_fi = factor(profession_metadata_profession_prefLabel_fi)\n  ) %&gt;%\n  filter(genre %in% c(\"Kaunokirjallisuus\", \"Tietokirjallisuus\")) %&gt;%\n  mutate(\n    genre = relevel(genre, ref = \"Kaunokirjallisuus\")\n  )"
+  },
+  {
+    "objectID": "workshop.html#multinomial-model",
+    "href": "workshop.html#multinomial-model",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Multinomial Model",
+    "text": "Multinomial Model\n\nmodel_freq &lt;- multinom(\n  genre ~ gender + profession_metadata_profession_prefLabel_fi,\n  data = df,\n  trace = FALSE\n)\n\nprint(summary(model_freq))\n\nCall:\nmultinom(formula = genre ~ gender + profession_metadata_profession_prefLabel_fi, \n    data = df, trace = FALSE)\n\nCoefficients:\n                                                                      Values\n(Intercept)                                                       13.1140851\ngendermale                                                         0.9718252\nprofession_metadata_profession_prefLabel_fikirjailija            -11.7947091\nprofession_metadata_profession_prefLabel_filääkäri                 6.8029311\nprofession_metadata_profession_prefLabel_filääkäri, professori     1.6471987\nprofession_metadata_profession_prefLabel_fiopettaja              -10.1055260\nprofession_metadata_profession_prefLabel_fiprofessori             -7.2742380\nprofession_metadata_profession_prefLabel_fiprofessori, runoilija   2.5694941\n                                                                    Std. Err.\n(Intercept)                                                      7.555564e+01\ngendermale                                                       4.966238e-01\nprofession_metadata_profession_prefLabel_fikirjailija            7.555480e+01\nprofession_metadata_profession_prefLabel_filääkäri               2.137492e-10\nprofession_metadata_profession_prefLabel_filääkäri, professori   0.000000e+00\nprofession_metadata_profession_prefLabel_fiopettaja              7.555649e+01\nprofession_metadata_profession_prefLabel_fiprofessori            7.556078e+01\nprofession_metadata_profession_prefLabel_fiprofessori, runoilija 0.000000e+00\n\nResidual Deviance: 144.666 \nAIC: 160.666"
+  },
+  {
+    "objectID": "workshop.html#classic-separation-sparsity-problem",
+    "href": "workshop.html#classic-separation-sparsity-problem",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Classic separation / sparsity problem",
+    "text": "Classic separation / sparsity problem\n\ntable(df$profession_metadata_profession_prefLabel_fi, df$genre)\n\n                       \n                        Kaunokirjallisuus Tietokirjallisuus\n  historiantutkija                      0               223\n  kirjailija                           17               124\n  lääkäri                               0               342\n  lääkäri, professori                   0               121\n  opettaja                              3               134\n  professori                            1               892\n  professori, runoilija                 0               244"
+  },
+  {
+    "objectID": "workshop.html#collapse-professions-into-meaningful-groups",
+    "href": "workshop.html#collapse-professions-into-meaningful-groups",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Collapse professions into meaningful groups",
+    "text": "Collapse professions into meaningful groups\n\ndf &lt;- df %&gt;%\n  mutate(\n    profession_group = case_when(\n      profession_metadata_profession_prefLabel_fi %in%\n        c(\"kirjailija\", \"professori, runoilija\") ~ \"kirjallinen ammatti\",\n      \n      profession_metadata_profession_prefLabel_fi %in%\n        c(\"professori\", \"historiantutkija\", \"opettaja\") ~ \"akateeminen ammatti\",\n      \n      profession_metadata_profession_prefLabel_fi %in%\n        c(\"lääkäri\", \"lääkäri, professori\") ~ \"lääketiede\",\n      \n      TRUE ~ \"muu\"\n    ) %&gt;% factor()\n  )"
+  },
+  {
+    "objectID": "workshop.html#re-run-the-model",
+    "href": "workshop.html#re-run-the-model",
+    "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
+    "section": "Re-run the model",
+    "text": "Re-run the model\n\nmodel_freq &lt;- multinom(\n  genre ~ gender + profession_group,\n  data = df,\n  trace = FALSE\n)\nprint(summary(model_freq))\n\nCall:\nmultinom(formula = genre ~ gender + profession_group, data = df, \n    trace = FALSE)\n\nCoefficients:\n                                       Values  Std. Err.\n(Intercept)                          3.683940  0.6409797\ngendermale                           2.247599  0.4900569\nprofession_groupkirjallinen ammatti -2.377337  0.5713177\nprofession_grouplääketiede           8.272787 52.3096988\n\nResidual Deviance: 176.4425 \nAIC: 184.4425"
+  },
+  {
     "objectID": "workshop.html#exercise-1-fennica-time-window-trend",
     "href": "workshop.html#exercise-1-fennica-time-window-trend",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 1 (Fennica): time window trend",
-    "text": "Exercise 1 (Fennica): time window trend\nTask\n\nRetrieve Fennica records for 1900–1950 (sample is fine)\nPlot publications per year\n\n\n# Your code here"
+    "text": "Exercise 1 (Fennica): time window trend\nTask\n\nRetrieve Fennica records for 1900–1950 (sample is fine)\nPlot publications per year"
   },
   {
     "objectID": "workshop.html#exercise-1-solution",
     "href": "workshop.html#exercise-1-solution",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 1 — Solution",
-    "text": "Exercise 1 — Solution\n\nfen_1900_1950 &lt;- search_finna(\n  query = \"*\",\n  filters = c(\n    'collection:\"FEN\"',\n    'search_daterange_mv:\"overlap|[1900 TO 1950]\"'\n  ),\n  limit = 5000\n)\n\nfen_1900_1950 %&gt;%\n  mutate(Year = suppressWarnings(as.integer(Year))) %&gt;%\n  filter(!is.na(Year)) %&gt;%\n  count(Year) %&gt;%\n  ggplot(aes(Year, n)) +\n  geom_line() +\n  labs(\n    title = \"Fennica publications per year (1900–1950 sample)\",\n    x = \"Year\",\n    y = \"Count\"\n  )"
+    "text": "Exercise 1 — Solution\n\nfen_1900_1950 &lt;- search_finna(\n  query = \"*\",\n  filters = c(\n    'collection:\"FEN\"',\n    'search_daterange_mv:\"overlap|[1900 TO 1950]\"'\n  ),\n  limit = 500\n)\n\nfen_1900_1950 %&gt;%\n  mutate(Year = suppressWarnings(as.integer(Year))) %&gt;%\n  filter(!is.na(Year)) %&gt;%\n  count(Year) %&gt;%\n  ggplot(aes(Year, n)) +\n  geom_line() +\n  labs(\n    title = \"Fennica publications per year (1900–1950 sample)\",\n    x = \"Year\",\n    y = \"Count\"\n  )"
   },
   {
     "objectID": "workshop.html#exercise-2-fennica-compare-two-languages-or-formats",
     "href": "workshop.html#exercise-2-fennica-compare-two-languages-or-formats",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 2 (Fennica): compare two languages or formats",
-    "text": "Exercise 2 (Fennica): compare two languages or formats\nTask\n\nFrom your Fennica sample, pick two values of Language (or Formats)\nCompare counts over time (facet or color)\n\n\n# Your code here"
+    "text": "Exercise 2 (Fennica): compare two languages or formats\nTask\n\nFrom your Fennica sample, pick two values of Language (or Formats)\nCompare counts over time (facet or color)"
   },
   {
     "objectID": "workshop.html#exercise-2-solution",
@@ -109,28 +186,28 @@
     "href": "workshop.html#exercise-3-viola-top-10-authors-and-share",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 3 (Viola): top-10 authors and share",
-    "text": "Exercise 3 (Viola): top-10 authors and share\nTask\n\nUse fetch_viola_records() for a small time window (e.g., 1900–1949)\nPlot top-10 authors with percentages\n\n\n# Your code here"
+    "text": "Exercise 3 (Viola): top-10 authors and share\nTask\n\nUse fetch_viola_records() for a small time window (e.g., 1900–1949)\nPlot top-10 authors with percentages"
   },
   {
     "objectID": "workshop.html#exercise-3-solution",
     "href": "workshop.html#exercise-3-solution",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 3 — Solution",
-    "text": "Exercise 3 — Solution\n\nviola_1900_1949 &lt;- fetch_viola_records(\n  base_query = \"*\",\n  base_filters = c('collection:\"VIO\"'),\n  year_ranges = list(c(1900, 1949)),\n  include_na = FALSE,\n  limit_per_query = 100000,\n  total_limit = 5000,\n  delay_after_query = 1\n)\n\nref_v &lt;- refine_metadata(viola_1900_1949)\n\ntop_plot(ref_v$Author, field = \"Author\", ntop = 10, show.percentage = TRUE) +\n  xlab(\"Author\") +\n  ylab(\"Percentage\")"
+    "text": "Exercise 3 — Solution\n\nviola_1900_1949 &lt;- fetch_viola_records(\n  base_query = \"*\",\n  base_filters = c('collection:\"VIO\"'),\n  year_ranges = list(c(1900, 1949)),\n  include_na = FALSE,\n  limit_per_query = 100000,\n  total_limit = 500,\n  delay_after_query = 1\n)\n\nref_v &lt;- refine_metadata(viola_1900_1949)\n\ntop_plot(ref_v$Author, field = \"Author\", ntop = 10, show.percentage = TRUE) +\n  xlab(\"Author\") +\n  ylab(\"Percentage\")"
   },
   {
     "objectID": "workshop.html#exercise-4-enrichment-join-kanto-and-inspect-new-fields",
     "href": "workshop.html#exercise-4-enrichment-join-kanto-and-inspect-new-fields",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 4 (Enrichment): join KANTO and inspect new fields",
-    "text": "Exercise 4 (Enrichment): join KANTO and inspect new fields\nTask\n\nLoad fennica_subset (built-in demo dataset)\nFetch KANTO author data with get_kanto()\nJoin back and list 5 enriched columns you didn’t have before\n\n\n# Your code here"
+    "text": "Exercise 4 (Enrichment): join KANTO and inspect new fields\nTask\n\nLoad fennica_subset (built-in demo dataset)\nFetch KANTO author data with get_kanto()\nJoin back and list 5 enriched columns you didn’t have before"
   },
   {
     "objectID": "workshop.html#exercise-4-solution",
     "href": "workshop.html#exercise-4-solution",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Exercise 4 — Solution",
-    "text": "Exercise 4 — Solution\n\ndata(\"fennica_subset\", package = \"finna\")\n\nauthors_df &lt;- finto::get_kanto(fennica_subset)\n\nfennica_subset2 &lt;- fennica_subset %&gt;%\n  mutate(authorID = stringr::str_extract(author_ID, \"\\\\d{9}\"))\n\nauthors_df_clean &lt;- authors_df %&gt;%\n  distinct(author_ID, .keep_all = TRUE) %&gt;%\n  rename(authorID = author_ID)\n\njoined &lt;- left_join(fennica_subset2, authors_df_clean, by = \"authorID\")\n\n# Columns added by enrichment (rough heuristic)\nadded_cols &lt;- setdiff(names(joined), names(fennica_subset2))\nadded_cols %&gt;% head(20)\n\n# Example: show a few enriched fields if present\njoined %&gt;% select(any_of(c(\"author_name\", \"authorID\", \"uri\", \"type\")), any_of(added_cols)) %&gt;%\n  slice_head(n = 3)"
+    "text": "Exercise 4 — Solution\n\ndata(\"fennica_subset\", package = \"finna\")\n\nauthors_df &lt;- finto::get_kanto(fennica_subset)\n\nfennica_subset2 &lt;- fennica_subset %&gt;%\n  mutate(authorID = stringr::str_extract(author_ID, \"\\\\d{9}\"))\n\nauthors_df_clean &lt;- authors_df %&gt;%\n  distinct(author_ID, .keep_all = TRUE) %&gt;%\n  rename(authorID = author_ID)\n\njoined &lt;- left_join(fennica_subset2, authors_df_clean, by = \"authorID\")\n\nadded_cols &lt;- setdiff(names(joined), names(fennica_subset2))\nadded_cols %&gt;% head(20)\n\n# Example: show a few enriched fields if present\njoined %&gt;% select(any_of(c(\"author_name\", \"authorID\", \"uri\", \"type\")), any_of(added_cols)) %&gt;%\n  slice_head(n = 3)"
   },
   {
     "objectID": "workshop.html#take-home-message",
@@ -144,13 +221,13 @@
     "href": "workshop.html#troubleshooting",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nAPI limits: Use limit parameter and batching\nRate limiting: Add delay_after_query parameter\nMissing data: Use filter(!is.na(field))\nDate parsing: Use suppressWarnings(as.integer(Year))"
+    "text": "Troubleshooting\n\nAPI limits: Use limit parameter and batching\nRate limiting: Add delay_per_query parameter\nMissing data: Use filter(!is.na(field))\nDate parsing: Use suppressWarnings(as.integer(Year))"
   },
   {
     "objectID": "workshop.html#cheat-sheet",
     "href": "workshop.html#cheat-sheet",
     "title": "Retrieving and Analyzing Finnish Cultural Metadata with R",
     "section": "Cheat sheet",
-    "text": "Cheat sheet\n# Basic search\nsearch_finna(query, filters, limit)\n\n# Fennica specific\nsearch_finna(\"*\", filters = c('collection:\"FEN\"'))\n\n# Viola batching\nfetch_viola_records(base_query, year_ranges)\n\n# Enrichment\nfinto::get_kanto(data)"
+    "text": "Cheat sheet\n# Basic search\nsearch_finna(query, filters, limit)\n\n# Fennica specific\nsearch_finna(\"*\", filters = c('collection:\"FEN\"'))\n\n# Viola specific\nsearch_finna(\"*\", filters = c('collection:\"VIO\"'))\n\n# Viola batching\nfetch_viola_records(base_query, year_ranges)\n\n# Metadata harvest\nharvest_oai_pmh(\n  base_url,\n  metadata_prefix,\n  user_agent = \"FinnaHarvester/1.0\",\n  record_limit = NULL\n)\n\n# Enrichment\nfinto::get_kanto(data)"
   }
 ]
