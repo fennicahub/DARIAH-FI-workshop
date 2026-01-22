@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.27">
 
   <meta name="author" content="Akewak Jeba, Julia Matveeva, Leo Lahti">
-  <meta name="dcterms.date" content="2026-01-21">
+  <meta name="dcterms.date" content="2026-01-22">
   <title>DARIAH-FI-workshop – Retrieving and Analyzing Finnish Cultural Metadata with R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -205,7 +205,7 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 </div>
 </div>
 
-  <p class="date">2026-01-21</p>
+  <p class="date">2026-01-22</p>
 </section>
 <section id="workshop-overview" class="slide level2">
 <h2>Workshop overview</h2>
@@ -482,10 +482,18 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb14-22"><a></a>merged_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="multinomial-regression" class="slide level2">
-<h2>Multinomial regression</h2>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="modeling-genre-probabilities-with-categorical-predictors" class="title-slide slide level1 center">
+<h1>Modeling genre probabilities with categorical predictors</h1>
+
+</section>
+<section id="setup-install-1" class="slide level2">
+<h2>Setup (install)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"readr"</span>, <span class="st">"dplyr"</span>, <span class="st">"forcats"</span>, <span class="st">"nnet"</span>, <span class="st">"janitor"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyr"</span>, <span class="st">"dplyr"</span>, <span class="st">"forcats"</span>, <span class="st">"nnet"</span>, <span class="st">"stringr"</span>,<span class="st">"ggplot2"</span>)</span>
 <span id="cb15-2"><a></a></span>
 <span id="cb15-3"><a></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
 <span id="cb15-4"><a></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
@@ -495,209 +503,263 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb15-8"><a></a><span class="fu">invisible</span>(<span class="fu">lapply</span>(pkgs, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="read-data" class="slide level2">
-<h2>Read data</h2>
+<section id="load-the-data" class="slide level2">
+<h2>Load the data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>url <span class="ot">&lt;-</span> <span class="st">"https://a3s.fi/swift/v1/fennica-container/df.csv"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>url <span class="ot">&lt;-</span> <span class="st">"https://a3s.fi/swift/v1/AUTH_3c0ccb602fa24298a6fe3ae224ca022f/fennica-container/harmonized/workshop_dariah.tsv"</span></span>
 <span id="cb16-2"><a></a></span>
-<span id="cb16-3"><a></a>df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(url, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb16-4"><a></a></span>
-<span id="cb16-5"><a></a><span class="fu">head</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-3"><a></a>df_model <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb16-4"><a></a>  <span class="at">file =</span> url,</span>
+<span id="cb16-5"><a></a>  <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>,</span>
+<span id="cb16-6"><a></a>  <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-7"><a></a>  <span class="at">colClasses =</span> <span class="st">"character"</span>,</span>
+<span id="cb16-8"><a></a>  <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span>,</span>
+<span id="cb16-9"><a></a>  <span class="at">quote =</span> <span class="st">"</span><span class="sc">\"</span><span class="st">"</span>,</span>
+<span id="cb16-10"><a></a>  <span class="at">comment.char =</span> <span class="st">""</span>,</span>
+<span id="cb16-11"><a></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb16-12"><a></a>)</span>
+<span id="cb16-13"><a></a></span>
+<span id="cb16-14"><a></a><span class="co"># Choose a common reference level (baseline) for interpretation</span></span>
+<span id="cb16-15"><a></a>df_model<span class="sc">$</span>genre <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(df_model<span class="sc">$</span>genre, <span class="st">"Romaanit"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="quick-sanity-checks" class="slide level2">
+<h2>Quick sanity checks</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">table</span>(df_model<span class="sc">$</span>genre) <span class="sc">%&gt;%</span> <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 135
-   ...1 melinda_id data_element genre_008         record_type       biblio_level
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;       
-1     1 000864435  Kirjat       Tietokirjallisuus Language material Monograph/I…
-2     2 000864439  Kirjat       Tietokirjallisuus Language material Monograph/I…
-3     3 000864442  Kirjat       Tietokirjallisuus Language material Monograph/I…
-4     4 000864443  Kirjat       Tietokirjallisuus Language material Monograph/I…
-5     5 000864448  Kirjat       Tietokirjallisuus Language material Monograph/I…
-6     6 000864449  Kirjat       Tietokirjallisuus Language material Monograph/I…
-# ℹ 129 more variables: publication_status &lt;chr&gt;, lang_orig &lt;chr&gt;,
-#   author_name &lt;chr&gt;, author_name_enriched &lt;chr&gt;, gender &lt;chr&gt;,
-#   gender_primary &lt;chr&gt;, author_birth &lt;dbl&gt;, author_death &lt;dbl&gt;,
-#   author_age &lt;dbl&gt;, title_length &lt;dbl&gt;, title_word &lt;dbl&gt;, language &lt;chr&gt;,
-#   language_primary &lt;chr&gt;, language_multi &lt;lgl&gt;, publication_year_from &lt;dbl&gt;,
-#   publication_year_till &lt;lgl&gt;, publication_year &lt;dbl&gt;,
-#   publication_decade &lt;dbl&gt;, publication_place &lt;chr&gt;, …</code></pre>
+<pre><code>
+    Tietokirjallisuus              Romaanit                 Runot 
+                14652                  5336                  3002 
+Novellit, kertomukset                Draama            Yhdistelmä 
+                 1908                  1715                   276 
+    Kaunokirjallisuus     Puheet, esitelmät 
+                  263                   229 </code></pre>
 </div>
-</div>
-</section>
-<section id="counts-and-tables" class="slide level2">
-<h2>Counts and tables</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>df_counts <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a></a>  <span class="fu">count</span>(genre, gender, profession_metadata_profession_prefLabel_fi, <span class="at">name =</span> <span class="st">"n"</span>)</span>
-<span id="cb18-3"><a></a></span>
-<span id="cb18-4"><a></a><span class="fu">print</span>(df_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">table</span>(df_model<span class="sc">$</span>gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 17 × 4
-   genre             gender profession_metadata_profession_prefLabel_fi     n
-   &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;                                       &lt;int&gt;
- 1 Kaunokirjallisuus female kirjailija                                      6
- 2 Kaunokirjallisuus female opettaja                                        2
- 3 Kaunokirjallisuus male   kirjailija                                     11
- 4 Kaunokirjallisuus male   opettaja                                        1
- 5 Kaunokirjallisuus male   professori                                      1
- 6 Tietokirjallisuus female historiantutkija                                4
- 7 Tietokirjallisuus female kirjailija                                     28
- 8 Tietokirjallisuus female lääkäri                                         9
- 9 Tietokirjallisuus female opettaja                                       15
-10 Tietokirjallisuus female professori                                     10
-11 Tietokirjallisuus male   historiantutkija                              219
-12 Tietokirjallisuus male   kirjailija                                     96
-13 Tietokirjallisuus male   lääkäri                                       333
-14 Tietokirjallisuus male   lääkäri, professori                           121
-15 Tietokirjallisuus male   opettaja                                      119
-16 Tietokirjallisuus male   professori                                    882
-17 Tietokirjallisuus male   professori, runoilija                         244</code></pre>
+<pre><code>
+ female    male Unknown 
+   2143   21287    3951 </code></pre>
 </div>
-</div>
-</section>
-<section id="gender-table" class="slide level2">
-<h2>Gender table</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>tab_gender <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">tabyl</span>(df, genre, gender)</span>
-<span id="cb20-2"><a></a><span class="fu">print</span>(tab_gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">table</span>(df_model<span class="sc">$</span>profession_primary) <span class="sc">%&gt;%</span> <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             genre female male
- Kaunokirjallisuus      8   13
- Tietokirjallisuus     66 2014</code></pre>
+<pre><code>
+     Unknown        Other   kirjailija respondentti     kääntäjä   toimittaja 
+       11030         5318         2413         2281         2261          880 
+  professori     opettaja  kirjoittaja      rehtori 
+         814          787          714          460 </code></pre>
 </div>
 </div>
 </section>
-<section id="gender-percentage" class="slide level2">
-<h2>Gender percentage</h2>
+<section id="plot-1-genre-composition-by-gender-proportions" class="slide level2">
+<h2>Plot 1: Genre composition by gender (proportions)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a>tab_gender_pct <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">adorn_percentages</span>(tab_gender, <span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a></a>  janitor<span class="sc">::</span><span class="fu">adorn_pct_formatting</span>()</span>
-<span id="cb22-3"><a></a></span>
-<span id="cb22-4"><a></a><span class="fu">print</span>(tab_gender_pct)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             genre female  male
- Kaunokirjallisuus  38.1% 61.9%
- Tietokirjallisuus   3.2% 96.8%</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="fu">ggplot</span>(df_model, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb23-2"><a></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb23-3"><a></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>, <span class="at">fill =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a></a><span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
 </div>
-</div>
-</section>
-<section id="prepare-variables" class="slide level2">
-<h2>Prepare variables</h2>
+<img data-src="workshop_files/figure-revealjs/Multinomial-plot1-1.png" width="960" class="r-stretch"></section>
+<section id="plot-2-genre-composition-by-profession-proportions" class="slide level2">
+<h2>Plot 2: Genre composition by profession (proportions)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-3"><a></a>    <span class="at">genre =</span> <span class="fu">factor</span>(genre_008),</span>
-<span id="cb24-4"><a></a>    <span class="at">gender =</span> <span class="fu">factor</span>(gender),</span>
-<span id="cb24-5"><a></a>    <span class="at">profession_metadata_profession_prefLabel_fi =</span> <span class="fu">factor</span>(profession_metadata_profession_prefLabel_fi)</span>
-<span id="cb24-6"><a></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb24-7"><a></a>  <span class="fu">filter</span>(genre <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Kaunokirjallisuus"</span>, <span class="st">"Tietokirjallisuus"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb24-8"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-9"><a></a>    <span class="at">genre =</span> <span class="fu">relevel</span>(genre, <span class="at">ref =</span> <span class="st">"Kaunokirjallisuus"</span>)</span>
-<span id="cb24-10"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="fu">ggplot</span>(df_model, <span class="fu">aes</span>(<span class="at">x =</span> profession_primary, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb24-2"><a></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>, <span class="at">fill =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
+<span id="cb24-4"><a></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb24-5"><a></a><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
 </div>
-</section>
-<section id="multinomial-model" class="slide level2">
-<h2>Multinomial Model</h2>
+<img data-src="workshop_files/figure-revealjs/Multinomial-plot2-1.png" width="960" class="r-stretch"></section>
+<section id="multinomial-regression" class="slide level2">
+<h2>Multinomial regression</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>model_freq <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
-<span id="cb25-2"><a></a>  genre <span class="sc">~</span> gender <span class="sc">+</span> profession_metadata_profession_prefLabel_fi,</span>
-<span id="cb25-3"><a></a>  <span class="at">data =</span> df,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>model <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
+<span id="cb25-2"><a></a>  genre <span class="sc">~</span> gender <span class="sc">+</span> profession_primary,</span>
+<span id="cb25-3"><a></a>  <span class="at">data =</span> df_model,</span>
 <span id="cb25-4"><a></a>  <span class="at">trace =</span> <span class="cn">FALSE</span></span>
 <span id="cb25-5"><a></a>)</span>
 <span id="cb25-6"><a></a></span>
-<span id="cb25-7"><a></a><span class="fu">print</span>(<span class="fu">summary</span>(model_freq))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-7"><a></a><span class="fu">summary</span>(model)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
-multinom(formula = genre ~ gender + profession_metadata_profession_prefLabel_fi, 
-    data = df, trace = FALSE)
-
-Coefficients:
-                                                                      Values
-(Intercept)                                                       13.1140851
-gendermale                                                         0.9718252
-profession_metadata_profession_prefLabel_fikirjailija            -11.7947091
-profession_metadata_profession_prefLabel_filääkäri                 6.8029311
-profession_metadata_profession_prefLabel_filääkäri, professori     1.6471987
-profession_metadata_profession_prefLabel_fiopettaja              -10.1055260
-profession_metadata_profession_prefLabel_fiprofessori             -7.2742380
-profession_metadata_profession_prefLabel_fiprofessori, runoilija   2.5694941
-                                                                    Std. Err.
-(Intercept)                                                      7.555564e+01
-gendermale                                                       4.966238e-01
-profession_metadata_profession_prefLabel_fikirjailija            7.555480e+01
-profession_metadata_profession_prefLabel_filääkäri               2.137492e-10
-profession_metadata_profession_prefLabel_filääkäri, professori   0.000000e+00
-profession_metadata_profession_prefLabel_fiopettaja              7.555649e+01
-profession_metadata_profession_prefLabel_fiprofessori            7.556078e+01
-profession_metadata_profession_prefLabel_fiprofessori, runoilija 0.000000e+00
-
-Residual Deviance: 144.666 
-AIC: 160.666 </code></pre>
-</div>
-</div>
-</section>
-<section id="classic-separation-sparsity-problem" class="slide level2">
-<h2>Classic separation / sparsity problem</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="fu">table</span>(df<span class="sc">$</span>profession_metadata_profession_prefLabel_fi, df<span class="sc">$</span>genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                       
-                        Kaunokirjallisuus Tietokirjallisuus
-  historiantutkija                      0               223
-  kirjailija                           17               124
-  lääkäri                               0               342
-  lääkäri, professori                   0               121
-  opettaja                              3               134
-  professori                            1               892
-  professori, runoilija                 0               244</code></pre>
-</div>
-</div>
-</section>
-<section id="collapse-professions-into-meaningful-groups" class="slide level2">
-<h2>Collapse professions into meaningful groups</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb29-3"><a></a>    <span class="at">profession_group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb29-4"><a></a>      profession_metadata_profession_prefLabel_fi <span class="sc">%in%</span></span>
-<span id="cb29-5"><a></a>        <span class="fu">c</span>(<span class="st">"kirjailija"</span>, <span class="st">"professori, runoilija"</span>) <span class="sc">~</span> <span class="st">"kirjallinen ammatti"</span>,</span>
-<span id="cb29-6"><a></a>      </span>
-<span id="cb29-7"><a></a>      profession_metadata_profession_prefLabel_fi <span class="sc">%in%</span></span>
-<span id="cb29-8"><a></a>        <span class="fu">c</span>(<span class="st">"professori"</span>, <span class="st">"historiantutkija"</span>, <span class="st">"opettaja"</span>) <span class="sc">~</span> <span class="st">"akateeminen ammatti"</span>,</span>
-<span id="cb29-9"><a></a>      </span>
-<span id="cb29-10"><a></a>      profession_metadata_profession_prefLabel_fi <span class="sc">%in%</span></span>
-<span id="cb29-11"><a></a>        <span class="fu">c</span>(<span class="st">"lääkäri"</span>, <span class="st">"lääkäri, professori"</span>) <span class="sc">~</span> <span class="st">"lääketiede"</span>,</span>
-<span id="cb29-12"><a></a>      </span>
-<span id="cb29-13"><a></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"muu"</span></span>
-<span id="cb29-14"><a></a>    ) <span class="sc">%&gt;%</span> <span class="fu">factor</span>()</span>
-<span id="cb29-15"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="re-run-the-model" class="slide level2">
-<h2>Re-run the model</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a>model_freq <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
-<span id="cb30-2"><a></a>  genre <span class="sc">~</span> gender <span class="sc">+</span> profession_group,</span>
-<span id="cb30-3"><a></a>  <span class="at">data =</span> df,</span>
-<span id="cb30-4"><a></a>  <span class="at">trace =</span> <span class="cn">FALSE</span></span>
-<span id="cb30-5"><a></a>)</span>
-<span id="cb30-6"><a></a><span class="fu">print</span>(<span class="fu">summary</span>(model_freq))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Call:
-multinom(formula = genre ~ gender + profession_group, data = df, 
+multinom(formula = genre ~ gender + profession_primary, data = df_model, 
     trace = FALSE)
 
 Coefficients:
-                                       Values  Std. Err.
-(Intercept)                          3.683940  0.6409797
-gendermale                           2.247599  0.4900569
-profession_groupkirjallinen ammatti -2.377337  0.5713177
-profession_grouplääketiede           8.272787 52.3096988
+                      (Intercept)  gendermale genderUnknown
+Draama                 -1.8243281  0.48425545     0.1714273
+Kaunokirjallisuus      -3.3856521  0.02641162     1.0587280
+Novellit, kertomukset  -0.8062308 -0.26404611     0.5445759
+Puheet, esitelmät      -4.6867499  0.75068731     0.1995744
+Runot                  -2.4859831  0.99940256     2.3762132
+Tietokirjallisuus      -1.4358849  1.30221822     1.8288469
+Yhdistelmä             -3.6842853  0.17945458     1.7669436
+                      profession_primarykirjailija
+Draama                                  0.04681887
+Kaunokirjallisuus                      -0.16985840
+Novellit, kertomukset                  -0.19087778
+Puheet, esitelmät                      -0.72349059
+Runot                                   0.17508161
+Tietokirjallisuus                      -0.82330625
+Yhdistelmä                             -0.12057560
+                      profession_primarykirjoittaja profession_primarykuvittaja
+Draama                                   -0.3716476                 -1.51862826
+Kaunokirjallisuus                         2.3993149                 -0.24109521
+Novellit, kertomukset                     1.3345576                  0.71805513
+Puheet, esitelmät                         2.0457859                 -0.24699555
+Runot                                     2.5447221                  0.07848643
+Tietokirjallisuus                         2.9248295                 -0.43434645
+Yhdistelmä                                2.6939746                  2.23956433
+                      profession_primaryopettaja profession_primaryOther
+Draama                                 1.2608868              1.34599257
+Kaunokirjallisuus                      1.5794176              0.68723728
+Novellit, kertomukset                  0.5652738              0.01392671
+Puheet, esitelmät                      1.3594645              2.04404504
+Runot                                  3.4845860              1.74389986
+Tietokirjallisuus                      1.6570524              2.13285118
+Yhdistelmä                             0.6248211              0.37178627
+                      profession_primaryprofessori profession_primaryrehtori
+Draama                                    1.743904               -0.13817991
+Kaunokirjallisuus                         1.638005               -0.41709494
+Novellit, kertomukset                     1.033936               -0.05902285
+Puheet, esitelmät                         4.923200                0.14617129
+Runot                                     3.339814                0.27443012
+Tietokirjallisuus                         4.947652               -0.37683755
+Yhdistelmä                                2.414373                1.43085769
+                      profession_primaryrespondentti
+Draama                                     0.6175326
+Kaunokirjallisuus                         -0.6254910
+Novellit, kertomukset                     -1.1796540
+Puheet, esitelmät                          0.5462942
+Runot                                      6.2565483
+Tietokirjallisuus                         10.1538133
+Yhdistelmä                                 0.4946164
+                      profession_primarytoimittaja profession_primaryUnknown
+Draama                                   1.2537584               -0.01493913
+Kaunokirjallisuus                        1.2711562                0.04804269
+Novellit, kertomukset                    0.8058559               -0.38969916
+Puheet, esitelmät                        0.2702575                0.97441631
+Runot                                    1.9311286                0.34802361
+Tietokirjallisuus                        1.1261798                1.03670876
+Yhdistelmä                               1.9779348               -0.39957036
 
-Residual Deviance: 176.4425 
-AIC: 184.4425 </code></pre>
+Std. Errors:
+                      (Intercept) gendermale genderUnknown
+Draama                 0.10912012 0.08883404    0.14270491
+Kaunokirjallisuus      0.24177562 0.18946770    0.24328932
+Novellit, kertomukset  0.08650150 0.07138198    0.10593058
+Puheet, esitelmät      0.35367304 0.26546358    0.36743602
+Runot                  0.11993771 0.09479875    0.11444010
+Tietokirjallisuus      0.07896528 0.06488203    0.08069092
+Yhdistelmä             0.26302595 0.20292697    0.26873432
+                      profession_primarykirjailija
+Draama                                  0.10288901
+Kaunokirjallisuus                       0.25748123
+Novellit, kertomukset                   0.09076228
+Puheet, esitelmät                       0.42285126
+Runot                                   0.10917163
+Tietokirjallisuus                       0.08142748
+Yhdistelmä                              0.27620628
+                      profession_primarykirjoittaja profession_primarykuvittaja
+Draama                                    0.4551472                   0.3735389
+Kaunokirjallisuus                         0.3756909                   0.5335691
+Novellit, kertomukset                     0.2359878                   0.1416478
+Puheet, esitelmät                         0.5540525                   0.7531100
+Runot                                     0.2183049                   0.2109636
+Tietokirjallisuus                         0.1856609                   0.1533788
+Yhdistelmä                                0.3700779                   0.2665901
+                      profession_primaryopettaja profession_primaryOther
+Draama                                 0.2057370              0.10069325
+Kaunokirjallisuus                      0.3867514              0.25625036
+Novellit, kertomukset                  0.2159991              0.10944311
+Puheet, esitelmät                      0.5764924              0.29056345
+Runot                                  0.1625823              0.10327487
+Tietokirjallisuus                      0.1549123              0.07144812
+Yhdistelmä                             0.5996751              0.29736302
+                      profession_primaryprofessori profession_primaryrehtori
+Draama                                   0.5278332                 0.1919932
+Kaunokirjallisuus                        1.0516618                 0.5384245
+Novellit, kertomukset                    0.5769589                 0.1669830
+Puheet, esitelmät                        0.5411295                 0.5718669
+Runot                                    0.4421894                 0.1787756
+Tietokirjallisuus                        0.4080617                 0.1343134
+Yhdistelmä                               0.8304904                 0.3041265
+                      profession_primaryrespondentti
+Draama                                      5.505767
+Kaunokirjallisuus                          23.293044
+Novellit, kertomukset                      10.192345
+Puheet, esitelmät                          17.428738
+Runot                                       3.161731
+Tietokirjallisuus                           3.147812
+Yhdistelmä                                 14.523978
+                      profession_primarytoimittaja profession_primaryUnknown
+Draama                                   0.1515957                0.09413559
+Kaunokirjallisuus                        0.3239207                0.22286312
+Novellit, kertomukset                    0.1478171                0.08435518
+Puheet, esitelmät                        0.6410573                0.28371971
+Runot                                    0.1428368                0.09666364
+Tietokirjallisuus                        0.1184175                0.06004265
+Yhdistelmä                               0.2900095                0.25538190
+
+Residual Deviance: 66109.7 
+AIC: 66291.7 </code></pre>
 </div>
 </div>
 </section>
+<section id="predicted-probabilities-for-each-row-n-x-k" class="slide level2">
+<h2>Predicted probabilities for each row (N x K)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a>p_hat <span class="ot">&lt;-</span> <span class="fu">fitted</span>(model)</span>
+<span id="cb27-2"><a></a><span class="fu">head</span>(p_hat, <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Romaanit     Draama Kaunokirjallisuus Novellit, kertomukset
+1  0.2280022 0.05881185       0.008315801            0.05295165
+2  0.2280022 0.05881185       0.008315801            0.05295165
+3  0.0885456 0.08907133       0.006119708            0.03078931
+4  0.2280022 0.05881185       0.008315801            0.05295165
+5  0.2280022 0.05881185       0.008315801            0.05295165
+6  0.2280022 0.05881185       0.008315801            0.05295165
+7  0.2280022 0.05881185       0.008315801            0.05295165
+8  0.2280022 0.05881185       0.008315801            0.05295165
+9  0.4392490 0.12051962       0.012883758            0.12445096
+10 0.4392490 0.12051962       0.012883758            0.12445096
+   Puheet, esitelmät      Runot Tietokirjallisuus  Yhdistelmä
+1        0.011795392 0.07302474         0.5625035 0.004594933
+2        0.011795392 0.07302474         0.5625035 0.004594933
+3        0.013349783 0.11453002         0.6537350 0.003859251
+4        0.011795392 0.07302474         0.5625035 0.004594933
+5        0.011795392 0.07302474         0.5625035 0.004594933
+6        0.011795392 0.07302474         0.5625035 0.004594933
+7        0.011795392 0.07302474         0.5625035 0.004594933
+8        0.011795392 0.07302474         0.5625035 0.004594933
+9        0.004159992 0.11834067         0.1686952 0.011700833
+10       0.004159992 0.11834067         0.1686952 0.011700833</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">nrow</span>(p_hat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27381</code></pre>
+</div>
+</div>
+</section>
+<section id="average-predicted-probabilities-by-gender" class="slide level2">
+<h2>Average predicted probabilities by gender</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a>avg_probs_by_gender <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(p_hat) <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a></a><span class="fu">mutate</span>(<span class="at">gender =</span> df_model<span class="sc">$</span>gender) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a></a><span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a></a><span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a></a><span class="fu">pivot_longer</span>(<span class="sc">-</span>gender, <span class="at">names_to =</span> <span class="st">"genre"</span>, <span class="at">values_to =</span> <span class="st">"p"</span>)</span>
+<span id="cb31-6"><a></a></span>
+<span id="cb31-7"><a></a><span class="fu">ggplot</span>(avg_probs_by_gender, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> p, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb31-8"><a></a><span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Average predicted probability"</span>, <span class="at">fill =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
+<span id="cb31-10"><a></a><span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="workshop_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section></section>
 <section>
 <section id="exercises-with-solutions" class="title-slide slide level1 center">
 <h1>Exercises (with solutions)</h1>
