@@ -515,6 +515,14 @@ theme_minimal()
 ```
 
 
+
+---
+
+
+::: {.column width="99%"}  
+![](images/last.png){width=100% }
+:::
+
 # Exercises (with solutions)
 
 ---
