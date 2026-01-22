@@ -370,13 +370,15 @@ merged_data %>% slice_head(n = 5)
 ---
 
 
-## Multinomial regression
+# Modeling genre probabilities with categorical predictors
+
+## Setup (install)
 
 ```{r}
 #| label: Multinomial-installation
 
 
-pkgs <- c("readr", "dplyr", "forcats", "nnet", "janitor")
+pkgs <- c("tidyr", "dplyr", "forcats", "nnet", "stringr","ggplot2")
 
 to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
 if (length(to_install) > 0) {
@@ -391,16 +393,26 @@ invisible(lapply(pkgs, library, character.only = TRUE))
 ---
 
 
-## Read data
+## Load the data
+
 ```{r}
 #| label: Multinomial-data
 
+url <- "https://a3s.fi/swift/v1/AUTH_3c0ccb602fa24298a6fe3ae224ca022f/fennica-container/harmonized/workshop_dariah.tsv"
 
-url <- "https://a3s.fi/swift/v1/fennica-container/df.csv"
+df_model <- read.table(
+  file = url,
+  sep = "\t",
+  header = TRUE,
+  colClasses = "character",
+  fileEncoding = "UTF-8",
+  quote = "\"",
+  comment.char = "",
+  stringsAsFactors = FALSE
+)
 
-df <- readr::read_csv(url, show_col_types = FALSE)
-
-head(df)
+# Choose a common reference level (baseline) for interpretation
+df_model$genre <- fct_relevel(df_model$genre, "Romaanit")
 ```
 
 
@@ -408,77 +420,76 @@ head(df)
 
 
 
-## Counts and tables 
+## Quick sanity checks
+
 ```{r}
-#| label: Multinomial-counts
+#| label: Multinomial-sanity
 
-df_counts <- df %>%
-  count(genre, gender, profession_metadata_profession_prefLabel_fi, name = "n")
-
-print(df_counts)
+table(df_model$genre) %>% sort(decreasing = TRUE) %>% head(10)
+table(df_model$gender)
+table(df_model$profession_primary) %>% sort(decreasing = TRUE) %>% head(10)
 
 ```
 
 
 ---
 
-## Gender table
+## Plot 1: Genre composition by gender (proportions)
 
 ```{r}
-tab_gender <- janitor::tabyl(df, genre, gender)
-print(tab_gender)
+#| label: Multinomial-plot1
+
+ggplot(df_model, aes(x = gender, fill = genre)) +
+geom_bar(position = "fill") +
+labs(x = "Gender", y = "Proportion", fill = "Genre") +
+theme_minimal()
 ```
 
 
 ---
 
-## Gender percentage
+## Plot 2: Genre composition by profession (proportions)
 
 ```{r}
-tab_gender_pct <- janitor::adorn_percentages(tab_gender, "row") %>%
-  janitor::adorn_pct_formatting()
+#| label: Multinomial-plot2
 
-print(tab_gender_pct)
+ggplot(df_model, aes(x = profession_primary, fill = genre)) +
+geom_bar(position = "fill") +
+labs(x = "", y = "Proportion", fill = "Genre") +
+theme_minimal() +
+theme(axis.text.x = element_text(angle = 50, vjust = 0.5, hjust = 1))
 ```
 
 
 
-## Prepare variables
-```{r}
-#| label: Multinomial-Variables
-
-
-df <- df %>%
-  mutate(
-    genre = factor(genre_008),
-    gender = factor(gender),
-    profession_metadata_profession_prefLabel_fi = factor(profession_metadata_profession_prefLabel_fi)
-  ) %>%
-  filter(genre %in% c("Kaunokirjallisuus", "Tietokirjallisuus")) %>%
-  mutate(
-    genre = relevel(genre, ref = "Kaunokirjallisuus")
-  )
-
-
-```
-
-
----
-
-
-## Multinomial Model
+## Multinomial regression
 
 ```{r}
-#| label: Multinomial-MODEL
+#| label: Multinomial-regression
 
-
-model_freq <- multinom(
-  genre ~ gender + profession_metadata_profession_prefLabel_fi,
-  data = df,
+model <- multinom(
+  genre ~ gender + profession_primary,
+  data = df_model,
   trace = FALSE
 )
 
-print(summary(model_freq))
+summary(model)
+
+```
+
+
+---
+
+
+## Predicted probabilities for each row (N x K)
+
+```{r}
+#| label: Multinomial-prediction
+
+p_hat <- fitted(model)
+head(p_hat, 10)
+
+nrow(p_hat)
 
 ```
 
@@ -487,49 +498,20 @@ print(summary(model_freq))
 ---
 
 
-## Classic separation / sparsity problem
+## Average predicted probabilities by gender
 
 ```{r}
-table(df$profession_metadata_profession_prefLabel_fi, df$genre)
-```
+#| warning: FALSE
+avg_probs_by_gender <- as.data.frame(p_hat) %>%
+mutate(gender = df_model$gender) %>%
+group_by(gender) %>%
+summarise(across(everything(), mean, na.rm = TRUE), .groups = "drop") %>%
+pivot_longer(-gender, names_to = "genre", values_to = "p")
 
-
----
-
-## Collapse professions into meaningful groups
-
-```{r}
-df <- df %>%
-  mutate(
-    profession_group = case_when(
-      profession_metadata_profession_prefLabel_fi %in%
-        c("kirjailija", "professori, runoilija") ~ "kirjallinen ammatti",
-      
-      profession_metadata_profession_prefLabel_fi %in%
-        c("professori", "historiantutkija", "opettaja") ~ "akateeminen ammatti",
-      
-      profession_metadata_profession_prefLabel_fi %in%
-        c("lääkäri", "lääkäri, professori") ~ "lääketiede",
-      
-      TRUE ~ "muu"
-    ) %>% factor()
-  )
-
-```
-
-
-
----
-
-## Re-run the model
-
-```{r}
-model_freq <- multinom(
-  genre ~ gender + profession_group,
-  data = df,
-  trace = FALSE
-)
-print(summary(model_freq))
+ggplot(avg_probs_by_gender, aes(x = gender, y = p, fill = genre)) +
+geom_col(position = "fill") +
+labs(x = "Gender", y = "Average predicted probability", fill = "Genre") +
+theme_minimal()
 ```
 
 

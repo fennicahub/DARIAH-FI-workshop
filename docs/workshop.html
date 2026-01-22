@@ -6,11 +6,11 @@
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.7.31">
 
   <meta name="author" content="Akewak Jeba, Julia Matveeva, Leo Lahti">
-  <meta name="dcterms.date" content="2026-01-21">
+  <meta name="dcterms.date" content="2026-01-22">
   <title>DARIAH-FI-workshop – Retrieving and Analyzing Finnish Cultural Metadata with R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-0fde88a82f0356838740f155f1088782.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-2c1b5f745a11cfad616ebade4a4a7d24.css">
   <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -205,7 +205,7 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 </div>
 </div>
 
-  <p class="date">2026-01-21</p>
+  <p class="date">2026-01-22</p>
 </section>
 <section id="workshop-overview" class="slide level2">
 <h2>Workshop overview</h2>
@@ -275,51 +275,51 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <section id="setup-install" class="slide level2">
 <h2>Setup (install)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>))</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(<span class="at">CRAN =</span> <span class="st">"https://cloud.r-project.org"</span>))</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"remotes"</span>, <span class="st">"tidyverse"</span>, <span class="st">"ggplot2"</span>))</span>
 <span id="cb1-4"><a></a></span>
 <span id="cb1-5"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finna"</span>)</span>
-<span id="cb1-6"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finto"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"fennicahub/finto"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="setup-load" class="slide level2">
 <h2>Setup (load)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(finna)</span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(finna)</span>
 <span id="cb2-2"><a></a><span class="fu">library</span>(finto)</span>
 <span id="cb2-3"><a></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-4"><a></a><span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-4"><a></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="basic-search-introduction-to-finna">🔹 Basic search (Introduction to <code>finna</code>)</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">library</span>(finna)</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">library</span>(finna)</span>
 <span id="cb3-2"><a></a></span>
 <span id="cb3-3"><a></a>record <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"sibelius"</span>)</span>
-<span id="cb3-4"><a></a>record <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-4"><a></a>record <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="subject-search-example">🔹 Subject search example</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>record_subject <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>record_subject <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
 <span id="cb4-2"><a></a>  <span class="at">query =</span> <span class="st">'"orkesterimusiikki"'</span>,</span>
 <span id="cb4-3"><a></a>  <span class="at">type =</span> <span class="st">"Subject"</span>,</span>
 <span id="cb4-4"><a></a>  <span class="at">lng =</span> <span class="st">"fi"</span></span>
 <span id="cb4-5"><a></a>  )</span>
 <span id="cb4-6"><a></a></span>
-<span id="cb4-7"><a></a>record_subject <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-7"><a></a>record_subject <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="search-operators-and--">🔹 Search operators (+ and !-)</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># Must include economics, Keynes optional</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># Must include economics, Keynes optional</span></span>
 <span id="cb5-2"><a></a></span>
 <span id="cb5-3"><a></a>plus_example <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"+economics Keynes"</span>)</span>
 <span id="cb5-4"><a></a></span>
@@ -328,14 +328,14 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb5-7"><a></a>minus_example <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"economics !-Keynes"</span>)</span>
 <span id="cb5-8"><a></a></span>
 <span id="cb5-9"><a></a>plus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
-<span id="cb5-10"><a></a>minus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-10"><a></a>minus_example <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="fuzzy-and-proximity-search">🔹 Fuzzy and proximity search</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Fuzzy search</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="co"># Fuzzy search</span></span>
 <span id="cb6-2"><a></a></span>
 <span id="cb6-3"><a></a>fuzzy_search <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"roam~"</span>)</span>
 <span id="cb6-4"><a></a></span>
@@ -344,26 +344,26 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb6-7"><a></a>prox_search <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(<span class="st">"economics Keynes~10"</span>)</span>
 <span id="cb6-8"><a></a></span>
 <span id="cb6-9"><a></a>fuzzy_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span>
-<span id="cb6-10"><a></a>prox_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-10"><a></a>prox_search <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="case-study-1-fennica" class="slide level2">
 <h2>Case study 1: Fennica</h2>
 <h3 id="basic-fennica-search">Basic Fennica search</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>fennica <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a></a>fennica <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
 <span id="cb7-2"><a></a>  <span class="st">"*"</span>,</span>
 <span id="cb7-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(<span class="st">'collection:"FEN"'</span>)</span>
 <span id="cb7-4"><a></a>)</span>
 <span id="cb7-5"><a></a></span>
-<span id="cb7-6"><a></a>fennica <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-6"><a></a>fennica <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="th-century-fennica-18091917">🔹 19th-century Fennica (1809–1917)</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>fennica_19c <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>fennica_19c <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
 <span id="cb8-2"><a></a>  <span class="st">"*"</span>,</span>
 <span id="cb8-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(</span>
 <span id="cb8-4"><a></a>    <span class="st">'collection:"FEN"'</span>,</span>
@@ -371,14 +371,14 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb8-6"><a></a>    )</span>
 <span id="cb8-7"><a></a>)</span>
 <span id="cb8-8"><a></a></span>
-<span id="cb8-9"><a></a><span class="fu">attr</span>(fennica_19c, <span class="st">"result_count"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-9"><a></a><span class="fu">attr</span>(fennica_19c, <span class="st">"result_count"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="fennica-publication-year-distribution">🔹 Fennica publication year distribution</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co">#| label: fennica-plot</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co">#| label: fennica-plot</span></span>
 <span id="cb9-2"><a></a><span class="co">#| eval: false</span></span>
 <span id="cb9-3"><a></a></span>
 <span id="cb9-4"><a></a><span class="fu">library</span>(finna)</span>
@@ -389,14 +389,14 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb9-9"><a></a>refined_data <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(fennica)</span>
 <span id="cb9-10"><a></a><span class="fu">top_plot</span>(refined_data<span class="sc">$</span>Year, <span class="at">field =</span> <span class="st">"Year"</span>,  <span class="at">ntop =</span> <span class="dv">10</span>, <span class="at">show.percentage =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb9-11"><a></a>  <span class="fu">xlab</span>(<span class="st">"Publication Year"</span>) <span class="sc">+</span> </span>
-<span id="cb9-12"><a></a>  <span class="fu">ylab</span>(<span class="st">"percentage distribution of Publications"</span>)  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-12"><a></a>  <span class="fu">ylab</span>(<span class="st">"percentage distribution of Publications"</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="case-study-2-viola-official-vignette" class="slide level2">
 <h2>🎼 Case study 2: Viola (official vignette)</h2>
 <h3 id="batch-retrieval-across-centuries">🔹 Batch retrieval across centuries</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>viola_results <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a>viola_results <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
 <span id="cb10-2"><a></a>  <span class="at">base_query =</span> <span class="st">"*"</span>,</span>
 <span id="cb10-3"><a></a>  <span class="at">base_filters =</span> <span class="fu">c</span>(<span class="st">'collection:"VIO"'</span>),</span>
 <span id="cb10-4"><a></a>  <span class="at">year_ranges =</span> <span class="fu">list</span>(</span>
@@ -411,14 +411,14 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb10-13"><a></a>)</span>
 <span id="cb10-14"><a></a></span>
 <span id="cb10-15"><a></a><span class="fu">nrow</span>(viola_results)</span>
-<span id="cb10-16"><a></a>viola_results <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-16"><a></a>viola_results <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">6</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section class="slide level2">
 
 <h3 id="viola-top-10-authors">🔹 Viola: top-10 authors</h3>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>refined_viola <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(viola_results)</span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a>refined_viola <span class="ot">&lt;-</span> <span class="fu">refine_metadata</span>(viola_results)</span>
 <span id="cb11-2"><a></a></span>
 <span id="cb11-3"><a></a><span class="fu">top_plot</span>(</span>
 <span id="cb11-4"><a></a>  refined_viola<span class="sc">$</span>Author,</span>
@@ -427,13 +427,13 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb11-7"><a></a>  <span class="at">show.percentage =</span> <span class="cn">TRUE</span></span>
 <span id="cb11-8"><a></a>  ) <span class="sc">+</span></span>
 <span id="cb11-9"><a></a>  <span class="fu">xlab</span>(<span class="st">"Author"</span>) <span class="sc">+</span></span>
-<span id="cb11-10"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-10"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="finna-collection-overview-archives-example" class="slide level2">
 <h2>🗂️ Finna collection overview (archives example)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>collection_overview <span class="ot">&lt;-</span> <span class="fu">fetch_finna</span>(</span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>collection_overview <span class="ot">&lt;-</span> <span class="fu">fetch_finna</span>(</span>
 <span id="cb12-2"><a></a>  <span class="at">query =</span> <span class="st">"record_format:ead"</span>,</span>
 <span id="cb12-3"><a></a>  <span class="at">limit =</span> <span class="dv">0</span>,</span>
 <span id="cb12-4"><a></a>  <span class="at">facets =</span> <span class="st">"building"</span>,</span>
@@ -441,24 +441,24 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb12-6"><a></a>  <span class="at">prettyPrint =</span> <span class="cn">TRUE</span></span>
 <span id="cb12-7"><a></a>)</span>
 <span id="cb12-8"><a></a></span>
-<span id="cb12-9"><a></a>collection_overview</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-9"><a></a>collection_overview</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="harvest-metadata-from-an-oai-pmh-server" class="slide level2">
 <h2>🗂️ Harvest Metadata from an OAI-PMH Server</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>records_marc21 <span class="ot">&lt;-</span> <span class="fu">harvest_oai_pmh</span>(</span>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a>records_marc21 <span class="ot">&lt;-</span> <span class="fu">harvest_oai_pmh</span>(</span>
 <span id="cb13-2"><a></a>  <span class="at">base_url =</span> <span class="st">"https://api.finna.fi/OAI/Server"</span>,</span>
 <span id="cb13-3"><a></a>  <span class="at">metadata_prefix =</span> <span class="st">"marc21"</span>,</span>
 <span id="cb13-4"><a></a>  <span class="at">user_agent =</span> <span class="st">"MyCustomHarvester/1.0"</span>,</span>
 <span id="cb13-5"><a></a>  <span class="at">record_limit =</span> <span class="dv">1000</span></span>
-<span id="cb13-6"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-6"><a></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="enrichment-fennica-authors-kanto" class="slide level2">
 <h2>Enrichment: Fennica authors → KANTO</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">library</span>(finto)</span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">library</span>(finto)</span>
 <span id="cb14-2"><a></a><span class="fu">library</span>(stringr)</span>
 <span id="cb14-3"><a></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb14-4"><a></a></span>
@@ -479,225 +479,287 @@ Akewak Jeba, Julia Matveeva, Leo Lahti
 <span id="cb14-19"><a></a>  <span class="at">by =</span> <span class="st">"authorID"</span></span>
 <span id="cb14-20"><a></a>)</span>
 <span id="cb14-21"><a></a></span>
-<span id="cb14-22"><a></a>merged_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-22"><a></a>merged_data <span class="sc">%&gt;%</span> <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="multinomial-regression" class="slide level2">
-<h2>Multinomial regression</h2>
+<section class="slide level2">
+
+</section>
+<section>
+<section id="modeling-genre-probabilities-with-categorical-predictors" class="title-slide slide level1 center">
+<h1>Modeling genre probabilities with categorical predictors</h1>
+
+</section>
+<section id="setup-install-1" class="slide level2">
+<h2>Setup (install)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"readr"</span>, <span class="st">"dplyr"</span>, <span class="st">"forcats"</span>, <span class="st">"nnet"</span>, <span class="st">"janitor"</span>)</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyr"</span>, <span class="st">"dplyr"</span>, <span class="st">"forcats"</span>, <span class="st">"nnet"</span>, <span class="st">"stringr"</span>,<span class="st">"ggplot2"</span>)</span>
 <span id="cb15-2"><a></a></span>
 <span id="cb15-3"><a></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
 <span id="cb15-4"><a></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
 <span id="cb15-5"><a></a>  <span class="fu">install.packages</span>(to_install, <span class="at">repos =</span> <span class="st">"https://cloud.r-project.org"</span>)</span>
 <span id="cb15-6"><a></a>}</span>
 <span id="cb15-7"><a></a></span>
-<span id="cb15-8"><a></a><span class="fu">invisible</span>(<span class="fu">lapply</span>(pkgs, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-8"><a></a><span class="fu">invisible</span>(<span class="fu">lapply</span>(pkgs, library, <span class="at">character.only =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="read-data" class="slide level2">
-<h2>Read data</h2>
+<section id="load-the-data" class="slide level2">
+<h2>Load the data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>url <span class="ot">&lt;-</span> <span class="st">"https://a3s.fi/swift/v1/fennica-container/df.csv"</span></span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a>url <span class="ot">&lt;-</span> <span class="st">"https://a3s.fi/swift/v1/AUTH_3c0ccb602fa24298a6fe3ae224ca022f/fennica-container/harmonized/workshop_dariah.tsv"</span></span>
 <span id="cb16-2"><a></a></span>
-<span id="cb16-3"><a></a>df <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(url, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb16-4"><a></a></span>
-<span id="cb16-5"><a></a><span class="fu">head</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb16-3"><a></a>df_model <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb16-4"><a></a>  <span class="at">file =</span> url,</span>
+<span id="cb16-5"><a></a>  <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>,</span>
+<span id="cb16-6"><a></a>  <span class="at">header =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-7"><a></a>  <span class="at">colClasses =</span> <span class="st">"character"</span>,</span>
+<span id="cb16-8"><a></a>  <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span>,</span>
+<span id="cb16-9"><a></a>  <span class="at">quote =</span> <span class="st">"</span><span class="sc">\"</span><span class="st">"</span>,</span>
+<span id="cb16-10"><a></a>  <span class="at">comment.char =</span> <span class="st">""</span>,</span>
+<span id="cb16-11"><a></a>  <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb16-12"><a></a>)</span>
+<span id="cb16-13"><a></a></span>
+<span id="cb16-14"><a></a><span class="co"># Choose a common reference level (baseline) for interpretation</span></span>
+<span id="cb16-15"><a></a>df_model<span class="sc">$</span>genre <span class="ot">&lt;-</span> <span class="fu">fct_relevel</span>(df_model<span class="sc">$</span>genre, <span class="st">"Romaanit"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="quick-sanity-checks" class="slide level2">
+<h2>Quick sanity checks</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">table</span>(df_model<span class="sc">$</span>genre) <span class="sc">%&gt;%</span> <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 135
-   ...1 melinda_id data_element genre_008         record_type       biblio_level
-  &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;             &lt;chr&gt;       
-1     1 000864435  Kirjat       Tietokirjallisuus Language material Monograph/I…
-2     2 000864439  Kirjat       Tietokirjallisuus Language material Monograph/I…
-3     3 000864442  Kirjat       Tietokirjallisuus Language material Monograph/I…
-4     4 000864443  Kirjat       Tietokirjallisuus Language material Monograph/I…
-5     5 000864448  Kirjat       Tietokirjallisuus Language material Monograph/I…
-6     6 000864449  Kirjat       Tietokirjallisuus Language material Monograph/I…
-# ℹ 129 more variables: publication_status &lt;chr&gt;, lang_orig &lt;chr&gt;,
-#   author_name &lt;chr&gt;, author_name_enriched &lt;chr&gt;, gender &lt;chr&gt;,
-#   gender_primary &lt;chr&gt;, author_birth &lt;dbl&gt;, author_death &lt;dbl&gt;,
-#   author_age &lt;dbl&gt;, title_length &lt;dbl&gt;, title_word &lt;dbl&gt;, language &lt;chr&gt;,
-#   language_primary &lt;chr&gt;, language_multi &lt;lgl&gt;, publication_year_from &lt;dbl&gt;,
-#   publication_year_till &lt;lgl&gt;, publication_year &lt;dbl&gt;,
-#   publication_decade &lt;dbl&gt;, publication_place &lt;chr&gt;, …</code></pre>
+<pre><code>
+    Tietokirjallisuus              Romaanit                 Runot 
+                14652                  5336                  3002 
+Novellit, kertomukset                Draama            Yhdistelmä 
+                 1908                  1715                   276 
+    Kaunokirjallisuus     Puheet, esitelmät 
+                  263                   229 </code></pre>
 </div>
-</div>
-</section>
-<section id="counts-and-tables" class="slide level2">
-<h2>Counts and tables</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a>df_counts <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a></a>  <span class="fu">count</span>(genre, gender, profession_metadata_profession_prefLabel_fi, <span class="at">name =</span> <span class="st">"n"</span>)</span>
-<span id="cb18-3"><a></a></span>
-<span id="cb18-4"><a></a><span class="fu">print</span>(df_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">table</span>(df_model<span class="sc">$</span>gender)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 17 × 4
-   genre             gender profession_metadata_profession_prefLabel_fi     n
-   &lt;chr&gt;             &lt;chr&gt;  &lt;chr&gt;                                       &lt;int&gt;
- 1 Kaunokirjallisuus female kirjailija                                      6
- 2 Kaunokirjallisuus female opettaja                                        2
- 3 Kaunokirjallisuus male   kirjailija                                     11
- 4 Kaunokirjallisuus male   opettaja                                        1
- 5 Kaunokirjallisuus male   professori                                      1
- 6 Tietokirjallisuus female historiantutkija                                4
- 7 Tietokirjallisuus female kirjailija                                     28
- 8 Tietokirjallisuus female lääkäri                                         9
- 9 Tietokirjallisuus female opettaja                                       15
-10 Tietokirjallisuus female professori                                     10
-11 Tietokirjallisuus male   historiantutkija                              219
-12 Tietokirjallisuus male   kirjailija                                     96
-13 Tietokirjallisuus male   lääkäri                                       333
-14 Tietokirjallisuus male   lääkäri, professori                           121
-15 Tietokirjallisuus male   opettaja                                      119
-16 Tietokirjallisuus male   professori                                    882
-17 Tietokirjallisuus male   professori, runoilija                         244</code></pre>
+<pre><code>
+ female    male Unknown 
+   2143   21287    3951 </code></pre>
 </div>
-</div>
-</section>
-<section id="gender-table" class="slide level2">
-<h2>Gender table</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a></a>tab_gender <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">tabyl</span>(df, genre, gender)</span>
-<span id="cb20-2"><a></a><span class="fu">print</span>(tab_gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a></a><span class="fu">table</span>(df_model<span class="sc">$</span>profession_primary) <span class="sc">%&gt;%</span> <span class="fu">sort</span>(<span class="at">decreasing =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>             genre female male
- Kaunokirjallisuus      8   13
- Tietokirjallisuus     66 2014</code></pre>
+<pre><code>
+     Unknown        Other   kirjailija respondentti     kääntäjä   toimittaja 
+       11030         5318         2413         2281         2261          880 
+  professori     opettaja  kirjoittaja      rehtori 
+         814          787          714          460 </code></pre>
 </div>
 </div>
 </section>
-<section id="gender-percentage" class="slide level2">
-<h2>Gender percentage</h2>
+<section id="plot-1-genre-composition-by-gender-proportions" class="slide level2">
+<h2>Plot 1: Genre composition by gender (proportions)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a></a>tab_gender_pct <span class="ot">&lt;-</span> janitor<span class="sc">::</span><span class="fu">adorn_percentages</span>(tab_gender, <span class="st">"row"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a></a>  janitor<span class="sc">::</span><span class="fu">adorn_pct_formatting</span>()</span>
-<span id="cb22-3"><a></a></span>
-<span id="cb22-4"><a></a><span class="fu">print</span>(tab_gender_pct)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>             genre female  male
- Kaunokirjallisuus  38.1% 61.9%
- Tietokirjallisuus   3.2% 96.8%</code></pre>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a></a><span class="fu">ggplot</span>(df_model, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb23-2"><a></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb23-3"><a></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>, <span class="at">fill =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a></a><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
 </div>
-</div>
-</section>
-<section id="prepare-variables" class="slide level2">
-<h2>Prepare variables</h2>
+<img data-src="workshop_files/figure-revealjs/Multinomial-plot1-1.png" width="960" class="r-stretch"></section>
+<section id="plot-2-genre-composition-by-profession-proportions" class="slide level2">
+<h2>Plot 2: Genre composition by profession (proportions)</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-3"><a></a>    <span class="at">genre =</span> <span class="fu">factor</span>(genre_008),</span>
-<span id="cb24-4"><a></a>    <span class="at">gender =</span> <span class="fu">factor</span>(gender),</span>
-<span id="cb24-5"><a></a>    <span class="at">profession_metadata_profession_prefLabel_fi =</span> <span class="fu">factor</span>(profession_metadata_profession_prefLabel_fi)</span>
-<span id="cb24-6"><a></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb24-7"><a></a>  <span class="fu">filter</span>(genre <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Kaunokirjallisuus"</span>, <span class="st">"Tietokirjallisuus"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb24-8"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb24-9"><a></a>    <span class="at">genre =</span> <span class="fu">relevel</span>(genre, <span class="at">ref =</span> <span class="st">"Kaunokirjallisuus"</span>)</span>
-<span id="cb24-10"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a></a><span class="fu">ggplot</span>(df_model, <span class="fu">aes</span>(<span class="at">x =</span> profession_primary, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb24-2"><a></a><span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> <span class="st">"Proportion"</span>, <span class="at">fill =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
+<span id="cb24-4"><a></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb24-5"><a></a><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">50</span>, <span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
 </div>
-</section>
-<section id="multinomial-model" class="slide level2">
-<h2>Multinomial Model</h2>
+<img data-src="workshop_files/figure-revealjs/Multinomial-plot2-1.png" width="960" class="r-stretch"></section>
+<section id="multinomial-regression" class="slide level2">
+<h2>Multinomial regression</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>model_freq <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
-<span id="cb25-2"><a></a>  genre <span class="sc">~</span> gender <span class="sc">+</span> profession_metadata_profession_prefLabel_fi,</span>
-<span id="cb25-3"><a></a>  <span class="at">data =</span> df,</span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a></a>model <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
+<span id="cb25-2"><a></a>  genre <span class="sc">~</span> gender <span class="sc">+</span> profession_primary,</span>
+<span id="cb25-3"><a></a>  <span class="at">data =</span> df_model,</span>
 <span id="cb25-4"><a></a>  <span class="at">trace =</span> <span class="cn">FALSE</span></span>
 <span id="cb25-5"><a></a>)</span>
 <span id="cb25-6"><a></a></span>
-<span id="cb25-7"><a></a><span class="fu">print</span>(<span class="fu">summary</span>(model_freq))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb25-7"><a></a><span class="fu">summary</span>(model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Call:
-multinom(formula = genre ~ gender + profession_metadata_profession_prefLabel_fi, 
-    data = df, trace = FALSE)
-
-Coefficients:
-                                                                      Values
-(Intercept)                                                       13.1140851
-gendermale                                                         0.9718252
-profession_metadata_profession_prefLabel_fikirjailija            -11.7947091
-profession_metadata_profession_prefLabel_filääkäri                 6.8029311
-profession_metadata_profession_prefLabel_filääkäri, professori     1.6471987
-profession_metadata_profession_prefLabel_fiopettaja              -10.1055260
-profession_metadata_profession_prefLabel_fiprofessori             -7.2742380
-profession_metadata_profession_prefLabel_fiprofessori, runoilija   2.5694941
-                                                                    Std. Err.
-(Intercept)                                                      7.555564e+01
-gendermale                                                       4.966238e-01
-profession_metadata_profession_prefLabel_fikirjailija            7.555480e+01
-profession_metadata_profession_prefLabel_filääkäri               2.137492e-10
-profession_metadata_profession_prefLabel_filääkäri, professori   0.000000e+00
-profession_metadata_profession_prefLabel_fiopettaja              7.555649e+01
-profession_metadata_profession_prefLabel_fiprofessori            7.556078e+01
-profession_metadata_profession_prefLabel_fiprofessori, runoilija 0.000000e+00
-
-Residual Deviance: 144.666 
-AIC: 160.666 </code></pre>
-</div>
-</div>
-</section>
-<section id="classic-separation-sparsity-problem" class="slide level2">
-<h2>Classic separation / sparsity problem</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a><span class="fu">table</span>(df<span class="sc">$</span>profession_metadata_profession_prefLabel_fi, df<span class="sc">$</span>genre)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>                       
-                        Kaunokirjallisuus Tietokirjallisuus
-  historiantutkija                      0               223
-  kirjailija                           17               124
-  lääkäri                               0               342
-  lääkäri, professori                   0               121
-  opettaja                              3               134
-  professori                            1               892
-  professori, runoilija                 0               244</code></pre>
-</div>
-</div>
-</section>
-<section id="collapse-professions-into-meaningful-groups" class="slide level2">
-<h2>Collapse professions into meaningful groups</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a></a>  <span class="fu">mutate</span>(</span>
-<span id="cb29-3"><a></a>    <span class="at">profession_group =</span> <span class="fu">case_when</span>(</span>
-<span id="cb29-4"><a></a>      profession_metadata_profession_prefLabel_fi <span class="sc">%in%</span></span>
-<span id="cb29-5"><a></a>        <span class="fu">c</span>(<span class="st">"kirjailija"</span>, <span class="st">"professori, runoilija"</span>) <span class="sc">~</span> <span class="st">"kirjallinen ammatti"</span>,</span>
-<span id="cb29-6"><a></a>      </span>
-<span id="cb29-7"><a></a>      profession_metadata_profession_prefLabel_fi <span class="sc">%in%</span></span>
-<span id="cb29-8"><a></a>        <span class="fu">c</span>(<span class="st">"professori"</span>, <span class="st">"historiantutkija"</span>, <span class="st">"opettaja"</span>) <span class="sc">~</span> <span class="st">"akateeminen ammatti"</span>,</span>
-<span id="cb29-9"><a></a>      </span>
-<span id="cb29-10"><a></a>      profession_metadata_profession_prefLabel_fi <span class="sc">%in%</span></span>
-<span id="cb29-11"><a></a>        <span class="fu">c</span>(<span class="st">"lääkäri"</span>, <span class="st">"lääkäri, professori"</span>) <span class="sc">~</span> <span class="st">"lääketiede"</span>,</span>
-<span id="cb29-12"><a></a>      </span>
-<span id="cb29-13"><a></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"muu"</span></span>
-<span id="cb29-14"><a></a>    ) <span class="sc">%&gt;%</span> <span class="fu">factor</span>()</span>
-<span id="cb29-15"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="re-run-the-model" class="slide level2">
-<h2>Re-run the model</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a></a>model_freq <span class="ot">&lt;-</span> <span class="fu">multinom</span>(</span>
-<span id="cb30-2"><a></a>  genre <span class="sc">~</span> gender <span class="sc">+</span> profession_group,</span>
-<span id="cb30-3"><a></a>  <span class="at">data =</span> df,</span>
-<span id="cb30-4"><a></a>  <span class="at">trace =</span> <span class="cn">FALSE</span></span>
-<span id="cb30-5"><a></a>)</span>
-<span id="cb30-6"><a></a><span class="fu">print</span>(<span class="fu">summary</span>(model_freq))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Call:
-multinom(formula = genre ~ gender + profession_group, data = df, 
+multinom(formula = genre ~ gender + profession_primary, data = df_model, 
     trace = FALSE)
 
 Coefficients:
-                                       Values  Std. Err.
-(Intercept)                          3.683940  0.6409797
-gendermale                           2.247599  0.4900569
-profession_groupkirjallinen ammatti -2.377337  0.5713177
-profession_grouplääketiede           8.272787 52.3096988
+                      (Intercept)  gendermale genderUnknown
+Draama                 -1.8243281  0.48425545     0.1714273
+Kaunokirjallisuus      -3.3856521  0.02641162     1.0587280
+Novellit, kertomukset  -0.8062308 -0.26404611     0.5445759
+Puheet, esitelmät      -4.6867499  0.75068731     0.1995744
+Runot                  -2.4859831  0.99940256     2.3762132
+Tietokirjallisuus      -1.4358849  1.30221822     1.8288469
+Yhdistelmä             -3.6842853  0.17945458     1.7669436
+                      profession_primarykirjailija
+Draama                                  0.04681887
+Kaunokirjallisuus                      -0.16985840
+Novellit, kertomukset                  -0.19087778
+Puheet, esitelmät                      -0.72349059
+Runot                                   0.17508161
+Tietokirjallisuus                      -0.82330625
+Yhdistelmä                             -0.12057560
+                      profession_primarykirjoittaja profession_primarykuvittaja
+Draama                                   -0.3716476                 -1.51862826
+Kaunokirjallisuus                         2.3993149                 -0.24109521
+Novellit, kertomukset                     1.3345576                  0.71805513
+Puheet, esitelmät                         2.0457859                 -0.24699555
+Runot                                     2.5447221                  0.07848643
+Tietokirjallisuus                         2.9248295                 -0.43434645
+Yhdistelmä                                2.6939746                  2.23956433
+                      profession_primaryopettaja profession_primaryOther
+Draama                                 1.2608868              1.34599257
+Kaunokirjallisuus                      1.5794176              0.68723728
+Novellit, kertomukset                  0.5652738              0.01392671
+Puheet, esitelmät                      1.3594645              2.04404504
+Runot                                  3.4845860              1.74389986
+Tietokirjallisuus                      1.6570524              2.13285118
+Yhdistelmä                             0.6248211              0.37178627
+                      profession_primaryprofessori profession_primaryrehtori
+Draama                                    1.743904               -0.13817991
+Kaunokirjallisuus                         1.638005               -0.41709494
+Novellit, kertomukset                     1.033936               -0.05902285
+Puheet, esitelmät                         4.923200                0.14617129
+Runot                                     3.339814                0.27443012
+Tietokirjallisuus                         4.947652               -0.37683755
+Yhdistelmä                                2.414373                1.43085769
+                      profession_primaryrespondentti
+Draama                                     0.6175326
+Kaunokirjallisuus                         -0.6254910
+Novellit, kertomukset                     -1.1796540
+Puheet, esitelmät                          0.5462942
+Runot                                      6.2565483
+Tietokirjallisuus                         10.1538133
+Yhdistelmä                                 0.4946164
+                      profession_primarytoimittaja profession_primaryUnknown
+Draama                                   1.2537584               -0.01493913
+Kaunokirjallisuus                        1.2711562                0.04804269
+Novellit, kertomukset                    0.8058559               -0.38969916
+Puheet, esitelmät                        0.2702575                0.97441631
+Runot                                    1.9311286                0.34802361
+Tietokirjallisuus                        1.1261798                1.03670876
+Yhdistelmä                               1.9779348               -0.39957036
 
-Residual Deviance: 176.4425 
-AIC: 184.4425 </code></pre>
+Std. Errors:
+                      (Intercept) gendermale genderUnknown
+Draama                 0.10912012 0.08883404    0.14270491
+Kaunokirjallisuus      0.24177562 0.18946770    0.24328932
+Novellit, kertomukset  0.08650150 0.07138198    0.10593058
+Puheet, esitelmät      0.35367304 0.26546358    0.36743602
+Runot                  0.11993771 0.09479875    0.11444010
+Tietokirjallisuus      0.07896528 0.06488203    0.08069092
+Yhdistelmä             0.26302595 0.20292697    0.26873432
+                      profession_primarykirjailija
+Draama                                  0.10288901
+Kaunokirjallisuus                       0.25748123
+Novellit, kertomukset                   0.09076228
+Puheet, esitelmät                       0.42285126
+Runot                                   0.10917163
+Tietokirjallisuus                       0.08142748
+Yhdistelmä                              0.27620628
+                      profession_primarykirjoittaja profession_primarykuvittaja
+Draama                                    0.4551472                   0.3735389
+Kaunokirjallisuus                         0.3756909                   0.5335691
+Novellit, kertomukset                     0.2359878                   0.1416478
+Puheet, esitelmät                         0.5540525                   0.7531100
+Runot                                     0.2183049                   0.2109636
+Tietokirjallisuus                         0.1856609                   0.1533788
+Yhdistelmä                                0.3700779                   0.2665901
+                      profession_primaryopettaja profession_primaryOther
+Draama                                 0.2057370              0.10069325
+Kaunokirjallisuus                      0.3867514              0.25625036
+Novellit, kertomukset                  0.2159991              0.10944311
+Puheet, esitelmät                      0.5764924              0.29056345
+Runot                                  0.1625823              0.10327487
+Tietokirjallisuus                      0.1549123              0.07144812
+Yhdistelmä                             0.5996751              0.29736302
+                      profession_primaryprofessori profession_primaryrehtori
+Draama                                   0.5278332                 0.1919932
+Kaunokirjallisuus                        1.0516618                 0.5384245
+Novellit, kertomukset                    0.5769589                 0.1669830
+Puheet, esitelmät                        0.5411295                 0.5718669
+Runot                                    0.4421894                 0.1787756
+Tietokirjallisuus                        0.4080617                 0.1343134
+Yhdistelmä                               0.8304904                 0.3041265
+                      profession_primaryrespondentti
+Draama                                      5.505767
+Kaunokirjallisuus                          23.293044
+Novellit, kertomukset                      10.192345
+Puheet, esitelmät                          17.428738
+Runot                                       3.161731
+Tietokirjallisuus                           3.147812
+Yhdistelmä                                 14.523978
+                      profession_primarytoimittaja profession_primaryUnknown
+Draama                                   0.1515957                0.09413559
+Kaunokirjallisuus                        0.3239207                0.22286312
+Novellit, kertomukset                    0.1478171                0.08435518
+Puheet, esitelmät                        0.6410573                0.28371971
+Runot                                    0.1428368                0.09666364
+Tietokirjallisuus                        0.1184175                0.06004265
+Yhdistelmä                               0.2900095                0.25538190
+
+Residual Deviance: 66109.7 
+AIC: 66291.7 </code></pre>
 </div>
 </div>
 </section>
+<section id="predicted-probabilities-for-each-row-n-x-k" class="slide level2">
+<h2>Predicted probabilities for each row (N x K)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a></a>p_hat <span class="ot">&lt;-</span> <span class="fu">fitted</span>(model)</span>
+<span id="cb27-2"><a></a><span class="fu">head</span>(p_hat, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Romaanit     Draama Kaunokirjallisuus Novellit, kertomukset
+1  0.2280022 0.05881185       0.008315801            0.05295165
+2  0.2280022 0.05881185       0.008315801            0.05295165
+3  0.0885456 0.08907133       0.006119708            0.03078931
+4  0.2280022 0.05881185       0.008315801            0.05295165
+5  0.2280022 0.05881185       0.008315801            0.05295165
+6  0.2280022 0.05881185       0.008315801            0.05295165
+7  0.2280022 0.05881185       0.008315801            0.05295165
+8  0.2280022 0.05881185       0.008315801            0.05295165
+9  0.4392490 0.12051962       0.012883758            0.12445096
+10 0.4392490 0.12051962       0.012883758            0.12445096
+   Puheet, esitelmät      Runot Tietokirjallisuus  Yhdistelmä
+1        0.011795392 0.07302474         0.5625035 0.004594933
+2        0.011795392 0.07302474         0.5625035 0.004594933
+3        0.013349783 0.11453002         0.6537350 0.003859251
+4        0.011795392 0.07302474         0.5625035 0.004594933
+5        0.011795392 0.07302474         0.5625035 0.004594933
+6        0.011795392 0.07302474         0.5625035 0.004594933
+7        0.011795392 0.07302474         0.5625035 0.004594933
+8        0.011795392 0.07302474         0.5625035 0.004594933
+9        0.004159992 0.11834067         0.1686952 0.011700833
+10       0.004159992 0.11834067         0.1686952 0.011700833</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a></a><span class="fu">nrow</span>(p_hat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 27381</code></pre>
+</div>
+</div>
+</section>
+<section id="average-predicted-probabilities-by-gender" class="slide level2">
+<h2>Average predicted probabilities by gender</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a>avg_probs_by_gender <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(p_hat) <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a></a><span class="fu">mutate</span>(<span class="at">gender =</span> df_model<span class="sc">$</span>gender) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a></a><span class="fu">group_by</span>(gender) <span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a></a><span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb31-5"><a></a><span class="fu">pivot_longer</span>(<span class="sc">-</span>gender, <span class="at">names_to =</span> <span class="st">"genre"</span>, <span class="at">values_to =</span> <span class="st">"p"</span>)</span>
+<span id="cb31-6"><a></a></span>
+<span id="cb31-7"><a></a><span class="fu">ggplot</span>(avg_probs_by_gender, <span class="fu">aes</span>(<span class="at">x =</span> gender, <span class="at">y =</span> p, <span class="at">fill =</span> genre)) <span class="sc">+</span></span>
+<span id="cb31-8"><a></a><span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span></span>
+<span id="cb31-9"><a></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Average predicted probability"</span>, <span class="at">fill =</span> <span class="st">"Genre"</span>) <span class="sc">+</span></span>
+<span id="cb31-10"><a></a><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="workshop_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch"></section></section>
 <section>
 <section id="exercises-with-solutions" class="title-slide slide level1 center">
 <h1>Exercises (with solutions)</h1>
@@ -714,7 +776,7 @@ AIC: 184.4425 </code></pre>
 <section id="exercise-1-solution" class="slide level2">
 <h2>Exercise 1 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a></a>fen_1900_1950 <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a></a>fen_1900_1950 <span class="ot">&lt;-</span> <span class="fu">search_finna</span>(</span>
 <span id="cb32-2"><a></a>  <span class="at">query =</span> <span class="st">"*"</span>,</span>
 <span id="cb32-3"><a></a>  <span class="at">filters =</span> <span class="fu">c</span>(</span>
 <span id="cb32-4"><a></a>    <span class="st">'collection:"FEN"'</span>,</span>
@@ -733,7 +795,7 @@ AIC: 184.4425 </code></pre>
 <span id="cb32-17"><a></a>    <span class="at">title =</span> <span class="st">"Fennica publications per year (1900–1950 sample)"</span>,</span>
 <span id="cb32-18"><a></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
 <span id="cb32-19"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb32-20"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb32-20"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-2-fennica-compare-two-languages-or-formats" class="slide level2">
@@ -747,7 +809,7 @@ AIC: 184.4425 </code></pre>
 <section id="exercise-2-solution" class="slide level2">
 <h2>Exercise 2 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>fen <span class="ot">&lt;-</span> fen_1900_1950 <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>fen <span class="ot">&lt;-</span> fen_1900_1950 <span class="sc">%&gt;%</span></span>
 <span id="cb33-2"><a></a>  <span class="fu">mutate</span>(</span>
 <span id="cb33-3"><a></a>    <span class="at">Year =</span> <span class="fu">suppressWarnings</span>(<span class="fu">as.integer</span>(Year)),</span>
 <span id="cb33-4"><a></a>    <span class="at">Language =</span> <span class="fu">as.character</span>(Language)</span>
@@ -768,7 +830,7 @@ AIC: 184.4425 </code></pre>
 <span id="cb33-19"><a></a>    <span class="at">title =</span> <span class="st">"Two most common languages over time (sample)"</span>,</span>
 <span id="cb33-20"><a></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
 <span id="cb33-21"><a></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
-<span id="cb33-22"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb33-22"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-3-viola-top-10-authors-and-share" class="slide level2">
@@ -782,7 +844,7 @@ AIC: 184.4425 </code></pre>
 <section id="exercise-3-solution" class="slide level2">
 <h2>Exercise 3 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a>viola_1900_1949 <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a></a>viola_1900_1949 <span class="ot">&lt;-</span> <span class="fu">fetch_viola_records</span>(</span>
 <span id="cb34-2"><a></a>  <span class="at">base_query =</span> <span class="st">"*"</span>,</span>
 <span id="cb34-3"><a></a>  <span class="at">base_filters =</span> <span class="fu">c</span>(<span class="st">'collection:"VIO"'</span>),</span>
 <span id="cb34-4"><a></a>  <span class="at">year_ranges =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="dv">1900</span>, <span class="dv">1949</span>)),</span>
@@ -796,7 +858,7 @@ AIC: 184.4425 </code></pre>
 <span id="cb34-12"><a></a></span>
 <span id="cb34-13"><a></a><span class="fu">top_plot</span>(ref_v<span class="sc">$</span>Author, <span class="at">field =</span> <span class="st">"Author"</span>, <span class="at">ntop =</span> <span class="dv">10</span>, <span class="at">show.percentage =</span> <span class="cn">TRUE</span>) <span class="sc">+</span></span>
 <span id="cb34-14"><a></a>  <span class="fu">xlab</span>(<span class="st">"Author"</span>) <span class="sc">+</span></span>
-<span id="cb34-15"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb34-15"><a></a>  <span class="fu">ylab</span>(<span class="st">"Percentage"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="exercise-4-enrichment-join-kanto-and-inspect-new-fields" class="slide level2">
@@ -811,7 +873,7 @@ AIC: 184.4425 </code></pre>
 <section id="exercise-4-solution" class="slide level2">
 <h2>Exercise 4 — Solution</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="fu">data</span>(<span class="st">"fennica_subset"</span>, <span class="at">package =</span> <span class="st">"finna"</span>)</span>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a></a><span class="fu">data</span>(<span class="st">"fennica_subset"</span>, <span class="at">package =</span> <span class="st">"finna"</span>)</span>
 <span id="cb35-2"><a></a></span>
 <span id="cb35-3"><a></a>authors_df <span class="ot">&lt;-</span> finto<span class="sc">::</span><span class="fu">get_kanto</span>(fennica_subset)</span>
 <span id="cb35-4"><a></a></span>
@@ -829,7 +891,7 @@ AIC: 184.4425 </code></pre>
 <span id="cb35-16"><a></a></span>
 <span id="cb35-17"><a></a><span class="co"># Example: show a few enriched fields if present</span></span>
 <span id="cb35-18"><a></a>joined <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="fu">any_of</span>(<span class="fu">c</span>(<span class="st">"author_name"</span>, <span class="st">"authorID"</span>, <span class="st">"uri"</span>, <span class="st">"type"</span>)), <span class="fu">any_of</span>(added_cols)) <span class="sc">%&gt;%</span></span>
-<span id="cb35-19"><a></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb35-19"><a></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="take-home-message" class="slide level2">
@@ -852,7 +914,7 @@ AIC: 184.4425 </code></pre>
 </section>
 <section id="cheat-sheet" class="slide level2">
 <h2>Cheat sheet</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="co"># Basic search</span></span>
+<div class="sourceCode" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="co"># Basic search</span></span>
 <span id="cb36-2"><a></a><span class="fu">search_finna</span>(query, filters, limit)</span>
 <span id="cb36-3"><a></a></span>
 <span id="cb36-4"><a></a><span class="co"># Fennica specific</span></span>
@@ -873,7 +935,7 @@ AIC: 184.4425 </code></pre>
 <span id="cb36-19"><a></a>)</span>
 <span id="cb36-20"><a></a></span>
 <span id="cb36-21"><a></a><span class="co"># Enrichment</span></span>
-<span id="cb36-22"><a></a>finto<span class="sc">::</span><span class="fu">get_kanto</span>(data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb36-22"><a></a>finto<span class="sc">::</span><span class="fu">get_kanto</span>(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section></section>
 <section id="thank-you" class="title-slide slide level1 center" data-auto-animate="true">
 <h1 data-id="quarto-animate-title">Thank You !</h1>
@@ -1074,7 +1136,7 @@ AIC: 184.4425 </code></pre>
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1186,14 +1248,13 @@ AIC: 184.4425 </code></pre>
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-          const outerScaffold = trigger.parentElement.cloneNode(true);
-          const codeEl = outerScaffold.querySelector('code');
-          for (const childEl of codeEl.children) {
-            if (isCodeAnnotation(childEl)) {
-              childEl.remove();
+            const codeEl = trigger.previousElementSibling.cloneNode(true);
+            for (const childEl of codeEl.children) {
+              if (isCodeAnnotation(childEl)) {
+                childEl.remove();
+              }
             }
-          }
-          return codeEl.innerText;
+            return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
@@ -1208,7 +1269,7 @@ AIC: 184.4425 </code></pre>
         }
           var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
           var mailtoRegex = new RegExp(/^mailto:/);
-            var filterRegex = new RegExp("https:\/\/fennicahub\.github\.io\/DARIAH-FI-workshop\/");
+            var filterRegex = new RegExp('/' + window.location.host + '/');
           var isInternal = (href) => {
               return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
           }
